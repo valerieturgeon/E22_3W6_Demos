@@ -1,0 +1,3 @@
+Quel est le mantra du cours?
+
+Comment! Commit! Push!
