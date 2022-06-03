@@ -1,4 +1,6 @@
-﻿<div class="container p-3 DivBgForm" >
+﻿@model IEnumerable<CrazyBooks.Models.Book>
+
+<div class="container p-3 DivBgForm">
   <div class="row pt-4">
     <div class="col-10">
       <h2 class="text-primary">Books</h2>
@@ -11,49 +13,61 @@
   </div>
 
   <br /><br />
-  <table class="table table-bordered table-striped border-primary" style="width:100%">
-    <thead class="bg-primary">
-      <tr>
-        <th>
-          Title
-        </th>
-        <th>
-          ISBN
-        </th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody class="table-striped  border-dark">
-      @foreach (var item in this.ViewBag.MaListe)
-      {
-        <tr class="text-dark">
-          <td width="80%">@item.Title</td>
-          <td class="text-center">
-            <div class="w-75 btn-group" role="group">
-              <a class="btn btn-warning mx-2">
-                Edit
-              </a>
-              <a class="btn btn-danger mx-2">
-                Delete
-              </a>
-            </div>
-          </td>
+  @if (Model.Count() > 0)
+  {
+    <table class="table table-bordered table-striped border-primary" style="width:100%">
+      <thead class="bg-primary">
+        <tr>
+          <th>
+            Title
+          </th>
+          <th>
+            ISBN
+          </th>
+          <th>
+            Subject
+          </th>
+          <th>
+            Publisher
+          </th>
+          <th></th>
         </tr>
-        <tr class="text-dark">
-          <td width="80%">@item.ISBN</td>
-          <td class="text-center">
-            <div class="w-75 btn-group" role="group">
-              <a class="btn btn-warning mx-2">
-                Edit
-              </a>
-              <a class="btn btn-danger mx-2">
-                Delete
-              </a>
-            </div>
-          </td>
-        </tr>
-      }
+      </thead>
+      <tbody class="table-striped  border-dark">
+        @foreach (var item in Model)
+        {
+          <tr class="text-dark">
+            <td width="80%">@item.Title</td>
+            <td class="text-center">
+              <div class="w-75 btn-group" role="group">
+                <a class="btn btn-warning mx-2">
+                  Edit
+                </a>
+                <a class="btn btn-danger mx-2">
+                  Delete
+                </a>
+              </div>
+            </td>
+          </tr>
+          <tr class="text-dark">
+            <td width="80%">@item.ISBN</td>
+            <td class="text-center">
+              <div class="w-75 btn-group" role="group">
+                <a class="btn btn-warning mx-2">
+                  Edit
+                </a>
+                <a class="btn btn-danger mx-2">
+                  Delete
+                </a>
+              </div>
+            </td>
+          </tr>
+        }
 
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  }
+  else
+  {
+    <p>No Book in the list...</p>}
 </div>

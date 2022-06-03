@@ -1,5 +1,7 @@
 ﻿using CrazyBooks.Models;
+using CrazyBooks.Models.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +11,19 @@ namespace CrazyBooks.Controllers
 {
   public class SubjectController : Controller
   {
+    private readonly CrazyBooksDbContext _db;
+    private readonly ILogger<SubjectController> _logger;
+
+    public SubjectController(CrazyBooksDbContext db, ILogger<SubjectController> logger)
+    {
+      _db = db;
+    }
     public IActionResult Index()
     {
-      this.ViewBag.MaListe = new List<Subject>()
-      {
-        new Subject(){Name= "Thriller", Id=1},
-        new Subject(){Name= "Biographie", Id=2},
-        new Subject(){Name= "Drame", Id=3},
-        new Subject(){Name= "Ressources humaines", Id=4}
-      };
-      return View();
+      //Sans Repository Patterns: Redéfini à chaque fois
+      List<Subject> objList = _db.Subject.ToList();
+
+      return View(objList);
     }
 
     //GET CREATE
@@ -34,6 +39,8 @@ namespace CrazyBooks.Controllers
       if (ModelState.IsValid)
       {
         // Ajouter à la BD
+        _db.Add(subject);
+        _db.SaveChanges();
       }
 
       return this.View(subject);

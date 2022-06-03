@@ -1,5 +1,7 @@
 ﻿using CrazyBooks.Models;
+using CrazyBooks.Models.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +11,19 @@ namespace CrazyBooks.Controllers
 {
   public class BookController : Controller
   {
+    private readonly CrazyBooksDbContext _db;
+
+    public BookController(CrazyBooksDbContext db)
+    {
+      _db = db;
+    }
+
     public IActionResult Index()
     {
-      this.ViewBag.MaListe = new List<Book>()
-      {
-        new Book(){ Id=1, Title= "Cobayes", ISBN= "9782896623921"},
-        new Book(){Id=2, Title= "Enlèvement", ISBN= "9782896626151" },
-        new Book(){Id=3, Title= "Le chiffreur", ISBN= "9782890747364" },
-        new Book(){Id=4, Title= "Les Maudits", ISBN= "9782896628773"}
-      };
-      return View();
+       //Sans Repository Patterns: Redéfini à chaque fois
+        List<Book> objList = _db.Book.Include(u => u.Publisher)
+                                   .Include(u => u.Subject).ToList();
+      return View(objList);
     }
 
     //GET CREATE
@@ -34,6 +39,8 @@ namespace CrazyBooks.Controllers
       if (ModelState.IsValid)
       {
         // Ajouter à la BD
+        _db.Add(book);
+        _db.SaveChanges();
       }
 
       return this.View(book);
