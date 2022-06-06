@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CrazyBooks_Models.Models.Book>
+
+<div class="container p-3 DivBgForm">
+  <div class="row pt-4">
+    <div class="col-10">
+      <h2 class="text-primary">Books</h2>
+    </div>
+    <div class="col-2 text-right">
+      <a asp-controller="Book" asp-action="Create" class="btn btn-success">
+        Create New Book
+      </a>
+    </div>
+  </div>
+  <br /><br />
+
+  @if (Model.Count() > 0)
+  {
+    <table class="table table-bordered table-striped border-primary" style="width:100%">
+      <thead class="bg-primary">
+        <tr>
+          <th>Title</th>
+          <th>ISBN</th>
+          <th>Price</th>
+          <th>Subject</th>
+          <th>Publisher</th>
+          <th>Speciality</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="table-striped table-light border-dark">
+        @foreach (var item in Model.OrderBy(i => i.Title))
+        {
+        <tr class="text-dark">
+          <td width="20%">@item.Title</td>
+          <td width="10%">@item.ISBN</td>
+          <td width="5%">@item.Price</td>
+          <td width="18%">@item.Subject.Name</td>
+          <td width="12%">@item.Publisher.Name</td>
+          <td width="15%">@item.Publisher.Speciality</td>
+          <td width="20%" class="text-center">
+            <div class="w-75 btn-group" role="group">
+              <a class="btn btn-warning mx-2">
+                Edit
+              </a>
+              <a class="btn btn-danger mx-2">
+                Delete
+              </a>
+            </div>
+          </td>
+        </tr>
+        }
+
+      </tbody>
+    </table>
+  }
+  else
+  {
+<p>No book exists...</p>}
+</div>
