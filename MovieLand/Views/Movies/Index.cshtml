@@ -1,0 +1,49 @@
+﻿@using MovieLand_Models
+@model IEnumerable<Movie>
+
+@{
+    ViewData["Title"] = "Films";
+}
+
+<h1>Liste des films</h1>
+
+<p>
+    <a asp-action="Create">Ajouter un nouveau film</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Runtime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Runtime)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MovieId">Modifier</a> |
+                    <a asp-action="Details" asp-route-id="@item.MovieId">Détails</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MovieId">Supprimer</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

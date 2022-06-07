@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31613.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLand", "MovieLand\MovieLand.csproj", "{68625EDD-EFD0-4029-94A9-1AF2AFC3EF7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLand_Models", "MovieLand_Models\MovieLand_Models.csproj", "{D41348C0-6FC3-4869-8AC5-7FAD92ED0567}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLand_DataAccess", "MovieLand_DataAccess\MovieLand_DataAccess.csproj", "{8507FA71-51F2-42FD-8563-0450E43616EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68625EDD-EFD0-4029-94A9-1AF2AFC3EF7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68625EDD-EFD0-4029-94A9-1AF2AFC3EF7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68625EDD-EFD0-4029-94A9-1AF2AFC3EF7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68625EDD-EFD0-4029-94A9-1AF2AFC3EF7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D41348C0-6FC3-4869-8AC5-7FAD92ED0567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D41348C0-6FC3-4869-8AC5-7FAD92ED0567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D41348C0-6FC3-4869-8AC5-7FAD92ED0567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D41348C0-6FC3-4869-8AC5-7FAD92ED0567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8507FA71-51F2-42FD-8563-0450E43616EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8507FA71-51F2-42FD-8563-0450E43616EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8507FA71-51F2-42FD-8563-0450E43616EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8507FA71-51F2-42FD-8563-0450E43616EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F56EF489-3728-4FC3-8068-0FE64D6D7228}
+	EndGlobalSection
+EndGlobal
