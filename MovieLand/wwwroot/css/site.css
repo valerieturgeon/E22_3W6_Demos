@@ -2,9 +2,32 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    text-decoration: none;
+    font-size: 25px;
+    margin-right: 25px;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+.navbar-dark .navbar-brand {
+    color: #e50914;
+    font-weight: 700;
+}
+
+.navbar-nav .nav-item:not(:last-child) {
+    margin-right: 15px;
+}
+.bg-darker {
+    background-color: rgb(20, 20, 20) !important;
+}
+
+.bg-dark {
+    background-color: #343a40 !important;
+}
+
+.border-transparent {
+    border-color: transparent !important;
 }
 
 /* Provide sufficient contrast against white background */
@@ -59,8 +82,9 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: rgb(20, 20, 20);
 }
 .footer {
   position: absolute;
@@ -68,4 +92,71 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+/* Movies styles
+-------------------------------------------------- */
+
+.items-container .item-wrapper {
+    margin-bottom: 1.5rem !important;
+}
+
+.items-container .item-wrapper .image {
+    border-radius: 0.35rem !important;
+    padding-top: 150%;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.actions-container.center,
+.movie-container,
+.items-container {
+    max-width: 1400px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 3rem !important;
+}
+
+.movie-container .movie-image-wrapper .image {
+    border-radius: 0.35rem !important;
+    padding-top: 150%;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.movie-container .movie-infos-wrapper .title {
+    color: #FFF;
+    font-size: 2.5rem;
+}
+
+.movie-container .movie-infos-wrapper .title span.name {
+    font-weight: 700;
+}
+
+.movie-container .movie-infos-wrapper .title span.year {
+}
+
+.movie-container .movie-infos-wrapper .infos {
+    color: #FFF;
+    font-size: 1.1rem;
+}
+
+.actions-container i {
+    font-size: 32px;
+}
+
+/* Content width styles
+-------------------------------------------------- */
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1540px;
+    }
+}
+
+@media (min-width: 1800px) {
+    .container {
+        max-width: 1740px;
+    }
 }
