@@ -5,39 +5,29 @@
     ViewData["Title"] = "Détails";
 }
 
-<h1>Détails</h1>
 
-<div>
-    <h4>Film</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseYear)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseYear)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Runtime)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Runtime)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Poster)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Poster)
-        </dd>
-    </dl>
+<div class="row actions-container center mb-5">
+    <div class="col-1">
+        <a asp-action="Index"><i class="bi bi-arrow-left-circle-fill text-white" title="Retour à la liste"></i></a>
+    </div>
+    <div class="col-1">
+        <a asp-action="Edit" asp-route-id="@Model.MovieId"><i class="bi bi-pencil-fill text-white" title="Modifier le film"></i></a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.MovieId">Modifier</a> |
-    <a asp-action="Index">Retour à la liste</a>
+<div class="row movie-container justify-content-center align-items-center">
+    <div class="col-2 movie-image-wrapper" id="@Model.MovieId">
+        <div class="card border-0 h-100" style="width:100%;">
+            <img class="card-img-top" src="https://image.tmdb.org/t/p/w185_and_h278_multi_faces/@(Model.Poster)" alt="@Model.Title">
+        </div>
+    </div>
+    <div class="col-6 movie-infos-wrapper" id="@Model.MovieId">
+        <div class="row">
+            <div class="col-12 title">
+                <span class="name">@Model.Title</span> <span class="year">(@Model.ReleaseYear)</span>
+            </div>
+            <div class="col-12 infos">
+                <div class="runtime"><span class="label">Durée:</span> <span class="value">@Model.Runtime</span></div>
+            </div>
+        </div>
+    </div>
 </div>
