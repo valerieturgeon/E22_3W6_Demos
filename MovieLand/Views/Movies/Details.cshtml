@@ -34,6 +34,9 @@
             <div class="col-12 infos">
                 <div class="runtime"><span class="label">Langues:</span> <span class="value">@(string.Join(", ", Model.Languages.Select(ml => ml.Language.Name).OrderBy(n => n)))</span></div>
             </div>
+            <div class="col-12 infos">
+                <div class="runtime"><span class="label">Version originale:</span> <span class="value">@Model.Languages.Where(ml => ml.IsOriginalLanguage).Select(ml => ml.Language.Name).SingleOrDefault()</span></div>
+            </div>
         </div>
     </div>
 </div>
