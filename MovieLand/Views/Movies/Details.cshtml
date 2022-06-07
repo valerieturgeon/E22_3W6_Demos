@@ -26,7 +26,7 @@
                 <span class="name">@Model.Title</span> <span class="year">(@Model.ReleaseYear)</span>
             </div>
             <div class="col-12 infos">
-                <div class="runtime"><span class="label">Durée:</span> <span class="value">@Model.Runtime</span></div>
+                <div class="runtime"><span class="label">Durée:</span> <span class="value">@((int)Math.Floor(@Model.Runtime / 60.0) + "h " + (@Model.Runtime % 60) + "m")</span></div>
             </div>
             <div class="col-12 infos">
                 <div class="runtime"><span class="label">Genres:</span> <span class="value">@(string.Join(", ", Model.Genres.Select(mg => mg.Genre.Name).OrderBy(n => n)))</span></div>
