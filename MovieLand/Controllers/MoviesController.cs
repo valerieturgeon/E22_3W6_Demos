@@ -32,6 +32,7 @@ namespace MovieLand.Controllers
 
             var movie = _db.Movies
                             .Include(m => m.Genres).ThenInclude(mg => mg.Genre)
+                            .Include(m => m.Languages).ThenInclude(ml => ml.Language)
                             .Include(m => m.Casts).ThenInclude(mc => mc.Actor)
                                 .FirstOrDefault(m => m.MovieId == id);
             if (movie == null)

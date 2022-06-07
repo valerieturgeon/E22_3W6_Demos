@@ -31,6 +31,9 @@
             <div class="col-12 infos">
                 <div class="runtime"><span class="label">Genres:</span> <span class="value">@(string.Join(", ", Model.Genres.Select(mg => mg.Genre.Name).OrderBy(n => n)))</span></div>
             </div>
+            <div class="col-12 infos">
+                <div class="runtime"><span class="label">Langues:</span> <span class="value">@(string.Join(", ", Model.Languages.Select(ml => ml.Language.Name).OrderBy(n => n)))</span></div>
+            </div>
         </div>
     </div>
 </div>
