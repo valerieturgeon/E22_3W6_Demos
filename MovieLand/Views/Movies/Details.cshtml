@@ -31,3 +31,19 @@
         </div>
     </div>
 </div>
+<div class="movie-cast mt-3">
+    <div class="row">
+        @foreach(MovieCast mc in Model.Casts.Where(c => c.Actor.Profile != "").OrderBy(c => c.Order).Take(7))
+        {
+        <div class="col actor_wrapper mb-3" id="@mc.ActorId">
+            <div class="card border-0 h-100" style="width:100%;">
+                <img class="card-img-top" src="https://image.tmdb.org/t/p/w138_and_h175_face/@(mc.Actor.Profile)" alt="@mc.Actor.Name">
+                <div class="card-body">
+                    <h5 class="card-title mb-0" style="font-size:1rem;">@mc.Actor.Name</h5>
+                    <p class="card-text" style="font-size:0.8rem;">@mc.Character</p>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

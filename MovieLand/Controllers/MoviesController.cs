@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MovieLand_DataAccess.Data;
 using MovieLand_Models;
 using System;
@@ -29,7 +30,7 @@ namespace MovieLand.Controllers
                 return NotFound();
             }
 
-            var movie = _db.Movies.FirstOrDefault(m => m.MovieId == id);
+            var movie = _db.Movies.Include(m => m.Casts).ThenInclude(mc => mc.Actor).FirstOrDefault(m => m.MovieId == id);
             if (movie == null)
             {
                 return NotFound();
