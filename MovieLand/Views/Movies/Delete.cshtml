@@ -5,10 +5,15 @@
     ViewData["Title"] = "Supprimer";
 }
 
-<h1>Supprimer</h1>
+<h1 class="text-white">Supprimer</h1>
 
-<h3>Voulez-vous vraiment supprimer ce film?</h3>
-<div>
+<div class="row actions-container">
+    <div class="col-1">
+        <a asp-action="Index"><i class="bi bi-arrow-left-circle-fill text-white" title="Retour à la liste"></i></a>
+    </div>
+</div>
+<h3 class="text-white">Voulez-vous vraiment supprimer ce film?</h3>
+<div class="text-white">
     <h4>Film</h4>
     <hr />
     <dl class="row">
@@ -40,7 +45,6 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="MovieId" />
-        <input type="submit" value="Supprimer" class="btn btn-danger" /> |
-        <a asp-action="Index">Retour à la liste</a>
+        <input type="submit" value="Supprimer" class="btn btn-danger" />
     </form>
 </div>
