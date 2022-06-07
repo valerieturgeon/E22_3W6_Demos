@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MovieLand_Models
 {
@@ -13,5 +9,8 @@ namespace MovieLand_Models
         public int ReleaseYear { get; set; }
         public int Runtime { get; set; }
         public string Poster { get; set; }
+        public virtual ICollection<MovieCast> Casts { get; set; }
+        public virtual ICollection<MovieGenre> Genres { get; set; }
+        public virtual ICollection<MovieLanguage> Languages { get; set; }
     }
 }

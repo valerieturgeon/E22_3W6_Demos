@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieLand_DataAccess.Data;
 
 namespace MovieLand_DataAccess.Migrations
 {
     [DbContext(typeof(MovieLandDbContext))]
-    partial class MovieLandDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220607161918_S06B_MovieLanf_Linq_AjoutModelsEtSeed")]
+    partial class S06B_MovieLanf_Linq_AjoutModelsEtSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
