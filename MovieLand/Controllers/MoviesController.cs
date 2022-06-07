@@ -19,7 +19,7 @@ namespace MovieLand.Controllers
 
         public IActionResult Index()
         {
-            return View(_db.Movies.ToList());
+            return View(_db.Movies.OrderByDescending(m => m.ReleaseYear).ThenBy(m => m.Title).ToList());
         }
 
         public IActionResult Details(int? id)
