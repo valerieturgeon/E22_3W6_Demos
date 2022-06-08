@@ -18,12 +18,12 @@
     <table class="table table-bordered table-striped border-primary" style="width:100%">
       <thead class="bg-primary">
         <tr>
-          <th>Title</th>
-          <th>ISBN</th>
-          <th>Price</th>
-          <th>Subject</th>
-          <th>Publisher</th>
-          <th>Speciality</th>
+          <th> @Html.DisplayNameFor(model => model.Title)</th>
+          <th> @Html.DisplayNameFor(model => model.ISBN)</th>
+          <th> @Html.DisplayNameFor(model => model.Price)</th>
+          <th> @Html.DisplayNameFor(model => model.Subject.Name)</th>
+          <th> @Html.DisplayNameFor(model => model.Publisher.Name)</th>
+          <th> @Html.DisplayNameFor(model => model.Publisher.Speciality)</th>
           <th></th>
         </tr>
       </thead>
@@ -31,19 +31,22 @@
         @foreach (var item in Model.OrderBy(i => i.Title))
         {
         <tr class="text-dark">
-          <td width="20%">@item.Title</td>
-          <td width="10%">@item.ISBN</td>
+          <td width="16%">@item.Title</td>
+          <td width="8%">@item.ISBN</td>
           <td width="5%">@item.Price</td>
-          <td width="18%">@item.Subject.Name</td>
+          <td width="10%">@item.Subject.Name</td>
           <td width="12%">@item.Publisher.Name</td>
-          <td width="15%">@item.Publisher.Speciality</td>
-          <td width="20%" class="text-center">
-            <div class="w-75 btn-group" role="group">
-              <a class="btn btn-warning mx-2">
+          <td width="12%">@item.Publisher.Speciality</td>
+          <td width="28%" class="text-center">
+            <div class="btn-group" role="group">
+              <a class="btn btn-warning mx-2" asp-controller="Book" asp-action="Update" asp-route-Id="@item.Id">
                 Edit
               </a>
-              <a class="btn btn-danger mx-2">
+              <a class="btn btn-danger mx-2" asp-controller="Book" asp-action="Delete" asp-route-Id="@item.Id">
                 Delete
+              </a><br />
+              <a class="btn btn-secondary mx-2" asp-controller="Book" asp-action="ManageAuthors" asp-route-Id="@item.Id">
+                Authors
               </a>
             </div>
           </td>
@@ -55,5 +58,5 @@
   }
   else
   {
-<p>No book exists...</p>}
+    <p>No book exists...</p>}
 </div>

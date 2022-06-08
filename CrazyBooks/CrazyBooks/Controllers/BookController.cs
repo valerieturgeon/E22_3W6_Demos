@@ -1,66 +1,75 @@
-﻿using CrazyBooks_DataAccess.Repository.IRepository;
+﻿using CrazyBooks_DataAccess.Data;
 using CrazyBooks_Models.Models;
 using CrazyBooks_Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CrazyBooks.Controllers
 {
   public class BookController : Controller
   {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<BookController> _logger;
+        private readonly CrazyBooksDbContext _db;
 
-    public BookController(IUnitOfWork unitOfWork, ILogger<BookController> logger)
+        public BookController(CrazyBooksDbContext crazyBooksDbContext)
     {
-      _unitOfWork = unitOfWork;
-      _logger = logger;
-    }
+            _db = crazyBooksDbContext;
+        }
     public IActionResult Index()
     {
-      IEnumerable<Book> objList = _unitOfWork.Book.GetAll(includeProperties:"Publisher,Subject");
+            //List<Book> objList = _db.Book.ToList();
+            List<Book> objList = _db.Book.Include(u => u.Publisher)
+                                    .Include(u => u.AuthorsBooks).ThenInclude(u => u.Author).ToList();
 
-      return View(objList);
+            return View(objList);
     }
 
-    //GET CREATE
-    public IActionResult Create()
-    {
-      BookVM bookVM = new BookVM()
-      {
-        Book = new Book(),
-        SubjectList = _unitOfWork.Subject.GetAll().Select(i => new SelectListItem
+        public IActionResult Upsert(int? id)
         {
-          Text = i.Name,
-          Value = i.Id.ToString()
-        }),
-        PublisherList = _unitOfWork.Publisher.GetAll().Select(i => new SelectListItem
+            BookVM obj = new BookVM();
+            obj.PublisherList = _db.Publisher.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Id.ToString()
+            });
+             obj.SubjectList = _db.Publisher.Select(i => new SelectListItem
+             {
+                 Text = i.Name,
+                 Value = i.Id.ToString()
+             });
+            if (id == null)
+            {
+                return View(obj);
+            }
+            //this for edit
+            obj.Book = _db.Book.FirstOrDefault(u => u.Id == id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Upsert(BookVM obj)
         {
-          Text = i.Name,
-          Value = i.Id.ToString()
-        })
-      };
-      return View(bookVM);
+            if (obj.Book.Id == 0)
+            {
+                //this is create
+                _db.Book.Add(obj.Book);
+            }
+            else
+            {
+                //this is an update
+                _db.Book.Update(obj.Book);
+            }
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
     }
-
-    //POST CREATE
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Create(BookVM bookVM)
-    {
-      if (ModelState.IsValid)
-      {
-        // Ajouter à la BD
-        _unitOfWork.Book.Add(bookVM.Book);
-      }
-
-      _unitOfWork.Save();
-      return RedirectToAction(nameof(Index));
-    }
-  }
 }

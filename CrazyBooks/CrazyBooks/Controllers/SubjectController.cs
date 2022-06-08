@@ -1,29 +1,27 @@
 ﻿using CrazyBooks_Models.Models;
 using CrazyBooks_DataAccess;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CrazyBooks_DataAccess.Data;
-using CrazyBooks_DataAccess.Repository.IRepository;
 
 namespace CrazyBooks.Controllers
 {
+  // Utilisation des méthodes asynchrones
   public class SubjectController : Controller
   {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<SubjectController> _logger;
+    private readonly CrazyBooksDbContext _db;
 
-    public SubjectController(IUnitOfWork unitOfWork, ILogger<SubjectController> logger)
+    public SubjectController(CrazyBooksDbContext crazyBooksDbContext)
     {
-      _unitOfWork = unitOfWork;
-      _logger = logger;
+            _db = crazyBooksDbContext;
+     
     }
     public IActionResult Index()
     {
-      IEnumerable<Subject> SubjectList = _unitOfWork.Subject.GetAll();
+      List<Subject> SubjectList = _db.Subject.ToList();
 
       return View(SubjectList);
     }
@@ -41,12 +39,48 @@ namespace CrazyBooks.Controllers
       if (ModelState.IsValid)
       {
         // Ajouter à la BD
-        _unitOfWork.Subject.Add(subject);
-     
-        _unitOfWork.Save();
-        return RedirectToAction(nameof(Index));
+      _db.Subject.Add(subject);
+
+      _db.SaveChanges();
+       return RedirectToAction(nameof(Index));
       }
       return this.View(subject);
     }
-  }
+
+        //GET EDIT
+        public IActionResult Edit(int id)
+        {
+            Subject sbj = new Subject();
+
+            sbj = _db.Subject.FirstOrDefault(u => u.Id == id);
+            if (sbj == null)
+            {
+                return NotFound();
+            }
+            return View(sbj);
+        }
+
+        //POST EDIT
+        [HttpPost]
+        public IActionResult EDIT(Subject subject)
+        {
+            if (ModelState.IsValid)
+            {
+                // Ajouter à la BD
+                _db.Subject.Update(subject);
+
+                _db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return this.View(subject);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var objFromDb = _db.Subject.FirstOrDefault(u => u.Id == id);
+            _db.Subject.Remove(objFromDb);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+    }
 }

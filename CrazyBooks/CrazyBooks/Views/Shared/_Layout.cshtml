@@ -26,16 +26,32 @@
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Management
+                Administration
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" asp-controller="Subject" asp-action="Index">Manage Subjects</a></li>
                 <li><a class="dropdown-item" asp-controller="Book" asp-action="Index">Manage Books</a></li>
+                <li><a class="dropdown-item" asp-controller="Publisher" asp-action="Index">Manage Publishers</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
               </ul>
             </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Publishers
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" asp-controller="Author" asp-action="Index">Manage Authors</a></li>
+                <li><a class="dropdown-item" asp-controller="Event" asp-action="">Manage Events</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Manage Profile</a></li>
+              </ul>
+            </li>
           </ul>
+          <div class="col-md-2 text-right">
+           LANGAGE
+          </div>
+
         </div>
       </div>
     </nav>
@@ -48,7 +64,7 @@
 
   <footer class="border-top footer text-dark bg-success">
     <div class="container">
-      &copy; 2021 - CrazyBooks - Valérie Turgeon <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+      &copy; 2022 - CrazyBooks - Valérie Turgeon <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
   </footer>
   <script src="~/lib/jquery/dist/jquery.min.js"></script>

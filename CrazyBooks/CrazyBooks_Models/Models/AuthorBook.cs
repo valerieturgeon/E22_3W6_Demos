@@ -15,6 +15,10 @@ namespace CrazyBooks_Models.Models
     [ForeignKey("Author")]
     public int Author_Id { get; set; }
 
+    // Droits d'auteur en entier qui représente le pourcentage de chaque author
+    // Exemple: 10 = 10%
+    public int PCRoyalties { get; set; }
+
     //Propriété de navigation 1 à plusieurs, côté 1
     public Book Book { get; set; }
     //Propriété de navigation 1 à plusieurs, côté 1

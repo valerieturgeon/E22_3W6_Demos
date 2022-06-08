@@ -10,9 +10,10 @@ namespace CrazyBooks_Models.Models
   {
     [Key]
     public int Id { get; set; }
-    
-    [Required]
-    [StringLength(30, MinimumLength = 5)]
+
+    [Display(Name = "NameSubject")]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "RequiredValidation")]
+    [StringLength(25, MinimumLength = 5, ErrorMessage = "MinMaxCaractersValidation")]
     public string Name { get; set; }
 
     //Propriété de navigation 1 à plusieurs, côté plusieurs
