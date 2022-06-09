@@ -6,7 +6,7 @@
       <h2 class="text-primary">Books</h2>
     </div>
     <div class="col-2 text-right">
-      <a asp-controller="Book" asp-action="Create" class="btn btn-success">
+      <a asp-controller="Book" asp-action="Upsert" class="btn btn-info">
         Create New Book
       </a>
     </div>
@@ -39,7 +39,7 @@
           <td width="12%">@item.Publisher.Speciality</td>
           <td width="28%" class="text-center">
             <div class="btn-group" role="group">
-              <a class="btn btn-warning mx-2" asp-controller="Book" asp-action="Update" asp-route-Id="@item.Id">
+              <a class="btn btn-warning mx-2" asp-controller="Book" asp-action="Upsert" asp-route-Id="@item.Id">
                 Edit
               </a>
               <a class="btn btn-danger mx-2" asp-controller="Book" asp-action="Delete" asp-route-Id="@item.Id">

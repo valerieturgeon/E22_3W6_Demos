@@ -71,5 +71,39 @@ namespace CrazyBooks.Controllers
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+
+  //GET DELETE
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            var obj = _db.Book.FirstOrDefault(u => u.Id == id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        //POST DELETE
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult DeletePost(int? id)
+        {
+            var obj = _db.Book.FirstOrDefault(u => u.Id == id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            _db.Book.Remove(obj);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }
