@@ -69,3 +69,27 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.lifetime-infos .card:nth-child(3n+1) {
+    border-color: #007bff !important;
+}
+
+.lifetime-infos .card:nth-child(3n+1) .card-header {
+    background-color: #007bff !important;
+}
+
+.lifetime-infos .card:nth-child(3n+2) {
+    border-color: #28a745 !important;
+}
+
+.lifetime-infos .card:nth-child(3n+2) .card-header {
+    background-color: #28a745 !important;
+}
+
+.lifetime-infos .card:nth-child(3n+3) {
+    border-color: #ffc107 !important;
+}
+
+.lifetime-infos .card:nth-child(3n+3) .card-header {
+    background-color: #ffc107 !important;
+}
