@@ -1,0 +1,18 @@
+﻿@using S08_DependencyInjection_Models.ViewModels
+@model MonitoringServiceInfosVM
+
+            <div class="col-6">
+                <div class="card border-info">
+                    <h5 class="card-header bg-info text-center font-weight-bolder text-white">@Model.Name</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 lifetime-infos">
+                                @foreach (LifetimeServiceInfoVM lsivm in Model.LifetimeServicesInfos)
+                                {
+                                <partial name="_LifetimeServiceInfos" model="lsivm" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

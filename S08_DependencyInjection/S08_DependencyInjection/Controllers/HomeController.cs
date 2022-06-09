@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using S08_DependencyInjection_Models;
-using System;
-using System.Collections.Generic;
+using S08_DependencyInjection_Models.ViewModels;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace S08_DependencyInjection.Controllers
 {
@@ -20,7 +17,7 @@ namespace S08_DependencyInjection.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(new HomeIndexVM());
         }
 
         public IActionResult Privacy()

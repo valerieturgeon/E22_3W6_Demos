@@ -1,0 +1,18 @@
+﻿@using S08_DependencyInjection_Models.ViewModels
+@model LifetimeServiceInfoVM
+
+                                    <div class="card mb-3">
+                                        <h5 class="card-header text-center font-weight-bolder text-white">@Model.Name</h5>
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <label class="col-3 col-form-label">GUID:</label>
+                                                <div class="col-9">
+                                                    <input type="text" readonly class="form-control-plaintext" value="@Model.Guid">
+                                                </div>
+                                                <label class="col-3 col-form-label">Compteur:</label>
+                                                <div class="col-9">
+                                                    <input type="text" readonly class="form-control-plaintext" value="@Model.CounterValue">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
