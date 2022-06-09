@@ -12,18 +12,21 @@ namespace S08_DependencyInjection.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IServiceAbc _svcAbc;
+        private readonly IServiceXyz _svcXyz;
 
-        public HomeController(ILogger<HomeController> logger, IServiceAbc svcAbc)
+        public HomeController(ILogger<HomeController> logger, IServiceAbc svcAbc, IServiceXyz svcXyz)
         {
             _logger = logger;
             _svcAbc = svcAbc;
+            _svcXyz = svcXyz;
         }
 
         public IActionResult Index()
         {
             _svcAbc.DoSomething();
+            _svcXyz.DoSomething();
 
-            return View(new HomeIndexVM(new List<MonitoringServiceInfosVM> { _svcAbc.GetInfos }));
+            return View(new HomeIndexVM(new List<MonitoringServiceInfosVM> { _svcAbc.GetInfos, _svcXyz.GetInfos }));
         }
 
         public IActionResult Privacy()
