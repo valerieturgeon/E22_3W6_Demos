@@ -9,4 +9,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.16" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\S08_DependencyInjection_Models\S08_DependencyInjection_Models.csproj" />
+    <ProjectReference Include="..\S08_DependencyInjection_Services\S08_DependencyInjection_Services.csproj" />
+  </ItemGroup>
+
 </Project>

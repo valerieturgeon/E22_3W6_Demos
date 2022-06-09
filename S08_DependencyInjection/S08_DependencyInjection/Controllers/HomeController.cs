@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using S08_DependencyInjection.Models;
+using S08_DependencyInjection_Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
