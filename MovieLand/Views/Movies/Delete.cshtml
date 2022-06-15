@@ -1,0 +1,50 @@
+﻿@using MovieLand_Models.Models
+@model Movie
+
+@{
+    ViewData["Title"] = "Supprimer";
+}
+
+<h1 class="text-white">Supprimer</h1>
+
+<div class="row actions-container">
+    <div class="col-1">
+        <a asp-action="Index"><i class="bi bi-arrow-left-circle-fill text-white" title="Retour à la liste"></i></a>
+    </div>
+</div>
+<h3 class="text-white">Voulez-vous vraiment supprimer ce film?</h3>
+<div class="text-white">
+    <h4>Film</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseYear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseYear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Runtime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Runtime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Poster)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Poster)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="MovieId" />
+        <input type="submit" value="Supprimer" class="btn btn-danger" />
+    </form>
+</div>

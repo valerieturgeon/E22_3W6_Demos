@@ -1,0 +1,14 @@
+﻿@using MovieLand_Models.ViewModels
+@model ListOfMoviesVM
+
+@{
+    ViewData["ShowActions"] = Model.ShowActions;
+}
+
+
+    <div class="row items-container">
+        @foreach (MovieForListVM mlvm in Model.Movies)
+        {
+            <partial name="_MovieForList" model="mlvm" view-data="ViewData" />
+        }
+    </div>

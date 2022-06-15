@@ -1,0 +1,78 @@
+﻿@using MovieLand_Models.ViewModels
+@model MovieDetailsVM
+
+@{
+    ViewData["Title"] = "Détails";
+}
+
+
+<div class="row actions-container center mb-5">
+    <div class="col-1">
+        <a asp-action="Index"><i class="bi bi-arrow-left-circle-fill text-white" title="Retour à la liste"></i></a>
+    </div>
+    <div class="col-1">
+        <a asp-action="Edit" asp-route-id="@Model.Id"><i class="bi bi-pencil-fill text-white" title="Modifier le film"></i></a>
+    </div>
+</div>
+<div class="row movie-container justify-content-center align-items-center">
+    <div class="col-2 movie-image-wrapper" id="@Model.Id">
+        <div class="card border-0 h-100" style="width:100%;">
+            <img class="card-img-top" src="https://image.tmdb.org/t/p/w185_and_h278_multi_faces/@(Model.Poster)" alt="@Model.Title">
+        </div>
+    </div>
+    <div class="col-6 movie-infos-wrapper" id="@Model.Id">
+        <div class="row">
+            <div class="col-12 title">
+                <span class="name">@Model.Title</span> <span class="year">(@Model.Year)</span>
+            </div>
+            <div class="col-12 infos">
+                <div class="runtime"><span class="label">Durée:</span> <span class="value">@Model.Runtime</span></div>
+            </div>
+            <div class="col-12 infos">
+                <div class="runtime"><span class="label">Genres:</span> <span class="value">@Model.Genres</span></div>
+            </div>
+            <div class="col-12 infos">
+                <div class="runtime"><span class="label">Langues:</span> <span class="value">@Model.Languages</span></div>
+            </div>
+            <div class="col-12 infos">
+                <div class="runtime"><span class="label">Version originale:</span> <span class="value">@Model.OriginalLanguage</span></div>
+            </div>
+            <div class="col-12 infos">
+                <div class="overview-toggle"><span class="value">Voir le résumé</span></div>
+            </div>
+                <div class="col-12 infos mt-2">
+                    <div class="row m-0 align-items-center">
+                        <div class="mr-2">
+                            <input type="text" value="@Model.Score" class="dial">
+                        </div>
+                        <div>
+                            <span class="label">Note</span>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="overviewModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="text-dark">@Model.Overview</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="movie-cast mt-3">
+    <div class="row">
+        @foreach (MovieCastForListVM mclvm in Model.Casts)
+        {
+            <partial name="_CastForList" model="mclvm" />
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/lib/kontrol/jquery.kontrol.js"></script>
+    <script type="text/javascript" src="~/js/kontrol.js"></script>
+    <script type="text/javascript" src="~/js/movies-details.js"></script>
+}

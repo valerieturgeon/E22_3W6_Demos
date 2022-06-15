@@ -1,0 +1,32 @@
+﻿@using MovieLand_Models.ViewModels
+@model IEnumerable<GenreForListVM>
+
+@{
+    ViewData["Title"] = "Genres";
+}
+
+<table class="table text-white">
+    <thead>
+        <tr class="row justify-content-between text-center">
+            <th scope="col" class="col-4">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th scope="col" class="col-6"></th>
+            <th scope="col" class="col-2">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="row justify-content-between">
+                <td scope="col" class="col-4 text-white">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td scope="col" class="col-6"></td>
+                <td scope="col" class="col-2 text-center">
+                    <div class="col item-action-details"><a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-info-circle-fill text-white" title="Voir les détails du genre"></i></a></div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

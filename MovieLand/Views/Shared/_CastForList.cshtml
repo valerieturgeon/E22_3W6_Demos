@@ -1,0 +1,12 @@
+﻿@using MovieLand_Models.ViewModels
+@model MovieCastForListVM
+
+        <div class="col actor_wrapper mb-3" id="@Model.ActorId">
+            <div class="card border-0 h-100" style="width:100%;">
+                <img class="card-img-top" src="https://image.tmdb.org/t/p/w138_and_h175_face/@(Model.Profile)" alt="@Model.Name">
+                <div class="card-body text-dark">
+                    <h5 class="card-title mb-0" style="font-size:1rem;">@Model.Name</h5>
+                    <p class="card-text" style="font-size:0.8rem;">@Model.Character</p>
+                </div>
+            </div>
+        </div>

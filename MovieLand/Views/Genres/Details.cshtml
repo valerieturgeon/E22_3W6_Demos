@@ -1,0 +1,36 @@
+﻿@using MovieLand_Models.ViewModels
+@model GenreDetailsVM
+
+@{
+    ViewData["Title"] = "Détails";
+}
+
+
+<div class="row actions-container center mb-5">
+    <div class="col-1">
+        <a asp-action="Index"><i class="bi bi-arrow-left-circle-fill text-white" title="Retour à la liste"></i></a>
+    </div>
+</div>
+<div class="genre-container">
+    <div class="row">
+        <div class="slider-container">
+            <div class="slider">
+                @foreach (GenreForListVM glvm in Model.Genres)
+                {
+                    <div class="slide" id="@glvm.Id">
+                        @glvm.Name
+                    </div>
+                }
+            </div>
+            <button class="btn btn-next"><i class="bi bi-caret-right-fill"></i></button>
+            <button class="btn btn-prev"><i class="bi bi-caret-left-fill"></i></button>
+        </div>
+    </div>
+</div>
+<div id="movies-container">
+    <partial name="_ListOfMovies" model="Model.MovieList" />
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/genres-details.js"></script>
+}

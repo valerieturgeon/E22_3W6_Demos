@@ -1,0 +1,248 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    text-decoration: none;
+    font-size: 25px;
+    margin-right: 25px;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+.navbar-dark .navbar-brand {
+    font-weight: 700;
+}
+
+.navbar-dark .nav-item.menu .nav-link {
+    color: #e50914;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.navbar-nav .nav-item:not(:last-child) {
+    margin-right: 15px;
+}
+
+.text-movieland {
+    color: #e50914 !important;
+}
+
+.bg-darker {
+    background-color: rgb(20, 20, 20) !important;
+}
+
+.bg-dark {
+    background-color: #343a40 !important;
+}
+
+.border-transparent {
+    border-color: transparent !important;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-color: rgb(20, 20, 20);
+    color:white;
+}
+
+/* Movies styles
+-------------------------------------------------- */
+
+.items-container .item-wrapper {
+    margin-bottom: 1.5rem !important;
+}
+
+.items-container .item-wrapper .image {
+    border-radius: 0.35rem !important;
+    padding-top: 150%;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.actions-container.center,
+.movie-container,
+.genre-container,
+.items-container,
+.genre-movies {
+    max-width: 1400px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 3rem !important;
+}
+
+.movie-container .movie-image-wrapper .image,
+.genre-movies .movie-wrapper .image {
+    border-radius: 0.35rem !important;
+    padding-top: 150%;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.movie-container .movie-infos-wrapper .title,
+.genre-container .genre-infos-wrapper .title {
+    color: #FFF;
+    font-size: 2.5rem;
+}
+
+.movie-container .movie-infos-wrapper .title span.name,
+.genre-container .genre-infos-wrapper .title span.name {
+    font-weight: 700;
+}
+
+.genre-container .genre-infos-wrapper .title span.name {
+    color: #FFF;
+}
+
+.movie-container .movie-infos-wrapper .infos {
+    color: #FFF;
+    font-size: 1.1rem;
+}
+
+.actions-container i {
+    font-size: 32px;
+}
+
+
+.slider-container {
+    width:100%;
+    overflow:hidden;
+    height: calc(1.5*2.5rem);
+    margin: 0 !important;
+    position:relative;
+}
+.slider {
+    min-width: 2800px;
+    height: calc(1.5*2.5rem);
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+.slide {
+    width: 100%;
+    max-width:1400px;
+    transition: all 0.5s;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    float:left;
+}
+
+.slider-container .btn {
+    position: absolute;
+    width: 40px;
+    height: calc(1.5*2.5rem);
+    z-index: 10;
+    cursor: pointer;
+    top: 0;
+    color: white;
+    padding: 0;
+}
+.slider-container .btn:hover > i {
+    opacity: 1;
+    color: white;
+    text-decoration: none;
+}
+.slider-container .btn.focus, .btn:focus {
+    outline: 0;
+    box-shadow: none;
+}
+.slider-container .btn > i {
+    opacity: 0.85;
+    font-size: 2.5rem;
+    line-height: 1.5;
+}
+
+.slider-container .btn:active {
+    transform: scale(1.1);
+}
+
+.slider-container .btn-prev {
+    left: 2%;
+}
+
+.slider-container .btn-next {
+    right: 2%;
+}
+
+.item-actions .item-action-favorite {
+    display: none;
+    cursor:pointer;
+}
+
+.item-actions.favorite .item-action-favorite.favorite,
+.item-actions:not(.favorite) .item-action-favorite:not(.favorite) {
+    display: block;
+}
+
+.overview-toggle > span, 
+#overviewModal {
+cursor:pointer;
+}
+
+/* Content width styles
+-------------------------------------------------- */
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1540px;
+    }
+}
+
+@media (min-width: 1800px) {
+    .container {
+        max-width: 1740px;
+    }
+}

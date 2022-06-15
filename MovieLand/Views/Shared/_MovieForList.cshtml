@@ -1,0 +1,20 @@
+﻿@using MovieLand_Models.ViewModels
+@model MovieForListVM
+
+    <div class="col-2 item-wrapper mb-3" id="@Model.Id">
+        <div class="card border-0 h-100" style="width:100%;">
+            <img class="card-img-top" src="https://image.tmdb.org/t/p/w185_and_h278_multi_faces/@(Model.Poster)" alt="@Model.Title">
+            @if (ViewData["ShowActions"] != null && (bool)ViewData["ShowActions"])
+            {
+            <div class="card-body bg-dark">
+                <div class="row item-actions@(Model.Favorite ? " favorite" : "")">
+                    <div class="col item-action-edit"><a asp-action="Edit" asp-route-id="@Model.Id"><i class="bi bi-pencil-fill text-white" title="Modifier le film"></i></a></div>
+                    <div class="col item-action-details"><a asp-action="Details" asp-route-id="@Model.Id"><i class="bi bi-info-circle-fill text-white" title="Voir les détails du film"></i></a></div>
+                    <div class="col item-action-delete"><a asp-action="Delete" asp-route-id="@Model.Id"><i class="bi bi-trash3-fill text-white" title="Supprimer le film"></i></a></div>
+                    <div class="col item-action-favorite favorite"><i class="bi bi-heart-fill text-white" title="Retirer le film des favorits"></i></div>
+                    <div class="col item-action-favorite"><i class="bi bi-heart text-white" title="Ajouter le film aux favorits"></i></div>                    
+                </div>
+            </div>
+            }
+        </div>
+    </div>
