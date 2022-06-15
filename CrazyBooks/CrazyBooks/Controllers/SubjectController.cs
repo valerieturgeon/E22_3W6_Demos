@@ -62,7 +62,7 @@ namespace CrazyBooks.Controllers
 
         //POST EDIT
         [HttpPost]
-        public IActionResult EDIT(Subject subject)
+        public IActionResult Edit(Subject subject)
         {
             if (ModelState.IsValid)
             {

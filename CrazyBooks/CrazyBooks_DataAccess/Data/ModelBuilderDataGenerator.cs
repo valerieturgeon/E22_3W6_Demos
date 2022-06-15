@@ -21,8 +21,8 @@ namespace CrazyBooks_DataAccess.Data
 
 
             #region Données Publisher
-            builder.Entity<Publisher>().HasData(new Subject() { Id = 1, Name = "Policier" });
-            builder.Entity<Publisher>().HasData(new Subject() { Id = 2, Name = "Drame" });
+            builder.Entity<Publisher>().HasData(new Publisher() { Id = 1, Name = "Ada" });
+            builder.Entity<Publisher>().HasData(new Publisher() { Id = 2, Name = "J'ai lu" });
             #endregion
         }
     }

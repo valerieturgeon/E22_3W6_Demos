@@ -7,7 +7,7 @@
     <form class="form-horizontal" method="post" asp-controller="Book" asp-action="Delete">
         <div class="row p-3 border">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
+            <input type="hidden" asp-for="Book.Id" />
             <div class="col-12 border-bottom">
                 <h2 class="text-primary">@title</h2>
             </div>
