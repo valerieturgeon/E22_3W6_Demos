@@ -13,18 +13,21 @@ namespace CrazyBooks_Models.Models
         [Key]
         public int Id { get; set; }
 
-        // Message d'erreur paramètré
-        [Required(AllowEmptyStrings = false, ErrorMessage = "{0} est obligatoire")]
-        [MaxLength(30, ErrorMessage = "{0} ne peut avoir plus de {1} caractères")]
+        // Message d'erreur paramétré avec clé codée pour i18n Resource
+        [Display(Name = "Title")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "RequiredValidation")]
+        [MaxLength(30, ErrorMessage = "MaxLengthValidation")]
         public string Title { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "{0} est obligatoire")]
-        [MaxLength(15, ErrorMessage = "{0} ne peut avoir plus de {1} caractères")]
+        [Display(Name = "ISBN")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "RequiredValidation")]
+        [MaxLength(15, ErrorMessage = "MaxLengthValidation")]
         public string ISBN { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "{0} est obligatoire")]
+        [Display(Name = "Price")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "RequiredValidation")]
         [Column(TypeName = "decimal(10,2)")]
-       // [DisplayFormat(DataFormatString = "{0:c2}")] // Monetaire (currency)
+        [DisplayFormat(DataFormatString = "{0:c2}")] // Monetaire (currency)
         public double Price { get; set; }
 
         [Display(Name = "Promotion")]

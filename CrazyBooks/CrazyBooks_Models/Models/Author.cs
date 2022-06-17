@@ -11,9 +11,9 @@ namespace CrazyBooks_Models.Models
   {
     [Key]
     public int Id { get; set; }
-    [Required]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "RequiredValidation")]
     public string FirstName { get; set; }
-    [Required]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "RequiredValidation")]
     public string LastName { get; set; }
 
     // Relation 1 à 1 facultative

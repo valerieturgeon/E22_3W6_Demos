@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
 
 namespace CrazyBooks.Controllers
 {
@@ -18,11 +19,15 @@ namespace CrazyBooks.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly CrazyBooksDbContext _db;
+        //TODO 07: Injection des resources localizer locals / shared
+        private readonly IStringLocalizer<HomeController> _localizer;
 
-        public HomeController(ILogger<HomeController> logger, CrazyBooksDbContext crazyBooksDbContext)
+
+        public HomeController(ILogger<HomeController> logger, CrazyBooksDbContext crazyBooksDbContext, IStringLocalizer<HomeController> localizer)
         {
             _logger = logger;
             _db = crazyBooksDbContext;
+            _localizer = localizer;
         }
 
         // Action présentant une View des livres disponibles pouvant être filtrés par sujet (Subject)
