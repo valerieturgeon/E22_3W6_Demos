@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CrazyBooks_Models\CrazyBooks_Models.csproj" />
+    <ProjectReference Include="..\CrazyBooks_Utility\CrazyBooks_Utility.csproj" />
   </ItemGroup>
 
 </Project>

@@ -21,11 +21,13 @@ namespace CrazyBooks.Controllers
         }
         public IActionResult Index()
         {
-           //List<Book> objList = _db.Book.ToList();
-           List<Book> BookList = _db.Book.Include(b => b.Subject).ToList();
-            
-            //List<Book> objList = _db.Book.Include(u => u.Publisher).Include(u => u.Subject)
-            //                        .Include(u => u.AuthorsBooks).ThenInclude(u => u.Author).ToList();
+            //List<Book> BookList = _db.Book.ToList();
+            //List<Book> BookList = _db.Book.OrderBy(b => b.Title).Include(b => b.Subject).ToList();
+            //List<Book> BookList = _db.Book.OrderBy(b => b.Title).Include(u => u.Publisher).Include(u => u.Subject)
+            //                        .ToList();
+
+            List<Book> BookList = _db.Book.Include(u => u.Publisher).Include(u => u.Subject)
+                                    .Include(u => u.AuthorsBooks).ThenInclude(u => u.Author).ToList();
 
             return View(BookList);
         }

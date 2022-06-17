@@ -1,0 +1,70 @@
+﻿@model CrazyBooks_Models.ViewModels.AuthorVM
+
+@{ Layout = "~/Views/Shared/_Layout.cshtml";
+   var title = "Delete an Author"; }
+
+<div class="border p-3 DivBgForm">
+    <form class="form-horizontal" method="post" asp-controller="Author" asp-action="Delete">
+        <div class="row p-3 border">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Author.Id" />
+            <input type="hidden" asp-for="Author.AuthorDetail_Id" />
+           
+            <div class="col-12 border-bottom">
+                <h2 class="text-primary">@title</h2>
+            </div>
+            <div class="col-8  pt-4">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Author.FirstName"></label>
+                    </div>
+                    <div class="col-8">
+                        <input disabled asp-for="Author.FirstName" class="form-control" />
+                        <span asp-validation-for="Author.FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Author.LastName"></label>
+                    </div>
+                    <div class="col-8">
+                        <input disabled asp-for="Author.LastName" class="form-control" />
+                        <span asp-validation-for="Author.LastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Author.AuthorDetail.Biography"></label>
+                    </div>
+                    <div class="col-8">
+                        <input disabled asp-for="Author.AuthorDetail.Biography" class="form-control text-right" />
+                        <span asp-validation-for="Author.AuthorDetail.Biography" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Author.AuthorDetail.Photo"></label>
+                    </div>
+                    <div class="col-8">
+                        <input disabled asp-for="Author.AuthorDetail.Photo"  class="form-control" />
+                        <span asp-validation-for="Author.AuthorDetail.Photo" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-8 offset-4">
+
+                        @{<partial name="_DeleteAndBackToListButton" model="Model.Author.Id" /> }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+<partial name="_ValidationScriptsPartial" />
+}

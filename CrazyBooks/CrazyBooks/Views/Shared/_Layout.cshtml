@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@ViewData["Title"] - CrazyBooks</title>
   <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="~/fontawesome/css/all.css" />
   @* Le CSS personnalisé devrait toujours être en dernier*@
   <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
   <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
       <div class="container">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/images/imagesLayout/tile.png" /></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -34,8 +35,9 @@
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" asp-controller="Subject" asp-action="Index">Manage Subjects</a></li>
                 <li><a class="dropdown-item" asp-controller="Book" asp-action="Index">Manage Books</a></li>
+                <li><a class="dropdown-item" asp-controller="Publisher" asp-action="Index">Manage Publishers</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" asp-controller="Author" asp-action="Index">Manage Authors</a></li>
 
               </ul>
             </li>

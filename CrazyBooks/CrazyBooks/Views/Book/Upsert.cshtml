@@ -6,10 +6,10 @@
 
 <div class="border p-3 DivBgForm">
     <form class="form-horizontal" method="post">
-      <div class="row p-3 border">
+     
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Book.Id" />
-        @if (Model.Book == null)
+        @if (Model.Book != null)
         {
           //edit
           title = "Edit a Book";
@@ -67,13 +67,10 @@
                 <div class="col">
                   @if (Model.Book == null)
                   {
-                    <button type="submit" class="btn btn-primary form-control">Create</button>
-                  }
+                    <partial name="_EditAndBackToListButton" model="Model.Book.Id" /> }
                   else
                   {
-                    <button type="submit" class="btn btn-warning form-control" asp-route-id="@Model.Book.Id">Update</button>
-
-                  }
+                    <partial name="_CreateAndBackToListButton" />}
                 </div>
 
 

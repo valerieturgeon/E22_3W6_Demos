@@ -17,6 +17,19 @@ namespace CrazyBooks_DataAccess.Data
         //public DbSet<NomClasseModele> NomDansBD { get; set; }
         public DbSet<Subject> Subject { get; set; }
         public DbSet<Book> Book { get; set; }
+        public DbSet<Publisher> Publisher { get; set; }
+        public DbSet<Author> Author { get; set; }
+        public DbSet<AuthorDetail> AuthorDetail { get; set; }
+        public DbSet<AuthorBook> AuthorBook { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            //Configuration fluent API
+
+            //composite key
+            modelBuilder.Entity<AuthorBook>().HasKey(ba => new { ba.Author_Id, ba.Book_Id });
+        }
     }
 }

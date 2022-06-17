@@ -12,10 +12,10 @@ a {
   color: #0366d6;
 }
 
-.btn-primary {
+/*.btn-primary {
   color: #fff;
   background-color: #1b6ec2;
-  border-color: #1861ac;
+  border-color: #1861ac;*/
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -26,7 +26,7 @@ a {
 
 .DivBgForm {
   /* background-image: url('../images/imagesLayout/BackgroundLivres.png');*/
-  background-color:darkgray;
+  background-color:bisque;
     border-radius: 25px;
 }
 

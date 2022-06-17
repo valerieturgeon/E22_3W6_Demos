@@ -1,0 +1,83 @@
+﻿@model CrazyBooks_Models.ViewModels.PublisherVM
+
+<form method="post">
+  <br />
+
+      <div class="card pb-3">
+        <div class="card-header pb-3 bg-dark text-light ml-0 row container">
+          <div class="col-6">
+            <i class="fas fa-book"></i> &nbsp;
+            Publisher
+          </div>
+          <div class="col-4 text-right">
+            <a asp-controller="Publisher" asp-action="Index" class="btn btn-outline-info">Back to list</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="container rounded p-2">
+            <div class="row">
+              <div class="col-12 col-lg-6 pb-4">
+                <div class="row">
+
+                  <h4 class="d-flex justify-content-between align-items-center">
+                    <span class="text-info">Publisher</span>
+                  </h4>
+                </div>
+                <div class="row my-1">
+                  <div class="col-3">
+                    <label>Name</label>
+                  </div>
+                  <div class="col-9">
+                    <input asp-for="Publisher.Name" type="text" class="form-control" />
+                    <span asp-validation-for="Publisher.Name" class="text-danger"></span>
+                  </div>
+                </div>
+                <div class="row my-1">
+                  <div class="col-3">
+                    <label>SPeciality</label>
+                  </div>
+                  <div class="col-9">
+                    <input asp-for="Publisher.Speciality" type="text" class="form-control" />
+                    <span asp-validation-for="Publisher.Speciality" class="text-danger"></span>
+                  </div>
+                </div>
+                <div class="row my-1">
+                  <div class="col-3">
+                    <label>Publisher Site</label>
+                  </div>
+                  <div class="col-9">
+                    <input asp-for="Publisher.PublisherSite" type="text" class="form-control" />
+                    <span asp-validation-for="Publisher.PublisherSite" class="text-danger"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-5 offset-lg-1">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="text-info">Published Books:</span>
+                </h4>
+                <ul class="list-group mb-3">
+                  @foreach (var details in Model.BooksList)
+                  {
+            <li class="list-group-item d-flex justify-content-between">
+              <div>
+                <p class="my-0">@details.Title</p>
+              </div>
+              <span class="text-muted">@details.Subject.Name</span>
+            </li>
+}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-12 col-md-8 pt-2">
+              <p style="color:maroon; font-size:14px;">The last book published at </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+</form>

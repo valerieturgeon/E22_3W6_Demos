@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Images_Supp_Authors\anonyme1.png" />
+    <Content Include="Images_Supp_Authors\anonyme2.png" />
+    <Content Include="Images_Supp_Authors\anonyme3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17">
@@ -17,6 +23,12 @@
   <ItemGroup>
     <ProjectReference Include="..\CrazyBooks_DataAccess\CrazyBooks_DataAccess.csproj" />
     <ProjectReference Include="..\CrazyBooks_Models\CrazyBooks_Models.csproj" />
+    <ProjectReference Include="..\CrazyBooks_Utility\CrazyBooks_Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Images_Supp_Books\" />
+    <Folder Include="wwwroot\images\Authors\" />
   </ItemGroup>
 
 </Project>

@@ -6,8 +6,8 @@
       <h2 class="text-primary">Books</h2>
     </div>
     <div class="col-2 text-right">
-      <a asp-controller="Book" asp-action="Upsert" class="btn btn-info">
-        Create New Book
+      <a asp-controller="Book" asp-action="Upsert" class="btn btn-success">
+        <i class="far fa-plus-square"></i>&nbsp;Create New Book
       </a>
     </div>
   </div>
@@ -43,7 +43,7 @@
               <a class="btn btn-warning mx-2" asp-controller="Book" asp-action="Upsert" asp-route-Id="@item.Id">
                 Edit
               </a>
-              <a class="btn btn-danger mx-2">
+              <a class="btn btn-warning mx-2" asp-controller="Publisher" asp-action="Delete" asp-route-Id="@item.Id">
                 Delete
               </a><br />
               <a class="btn btn-secondary mx-2">
