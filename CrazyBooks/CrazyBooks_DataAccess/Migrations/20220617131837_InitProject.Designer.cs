@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrazyBooks_DataAccess.Migrations
 {
     [DbContext(typeof(CrazyBooksDbContext))]
-    [Migration("20220616142834_AddAuthor_AuthorDetail")]
-    partial class AddAuthor_AuthorDetail
+    [Migration("20220617131837_InitProject")]
+    partial class InitProject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

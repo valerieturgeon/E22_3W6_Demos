@@ -24,7 +24,7 @@ namespace CrazyBooks_Models.Models
         [MaxLength(15, ErrorMessage = "MaxLengthValidation")]
         public string ISBN { get; set; }
 
-        [Display(Name = "Price")]
+        //[Display(Name = "Price")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "RequiredValidation")]
         [Column(TypeName = "decimal(10,2)")]
         [DisplayFormat(DataFormatString = "{0:c2}")] // Monetaire (currency)
