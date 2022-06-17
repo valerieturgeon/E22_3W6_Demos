@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 
 namespace CrazyBooks.Controllers
 {
@@ -36,6 +38,23 @@ namespace CrazyBooks.Controllers
             };
             return View(homeVM);
         }
+
+        //TODO 06: Insérez ici l'action SetLanguage (le cookie)
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            var cookie = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture));
+            var name = CookieRequestCultureProvider.DefaultCookieName;
+
+            Response.Cookies.Append(name, cookie, new CookieOptions
+            {
+                Path = "/",
+                Expires = DateTimeOffset.UtcNow.AddYears(1),
+            });
+
+            return LocalRedirect(returnUrl);
+        }
+
 
         public IActionResult Privacy()
         {
