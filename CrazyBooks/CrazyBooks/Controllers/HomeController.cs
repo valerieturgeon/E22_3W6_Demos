@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Localization;
 
 namespace CrazyBooks.Controllers
 {
@@ -19,26 +19,32 @@ namespace CrazyBooks.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly CrazyBooksDbContext _db;
-        //TODO 07: Injection des resources localizer locals / shared
         private readonly IStringLocalizer<HomeController> _localizer;
+        private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
 
 
-        public HomeController(ILogger<HomeController> logger, CrazyBooksDbContext crazyBooksDbContext, IStringLocalizer<HomeController> localizer)
+        public HomeController(ILogger<HomeController> logger, CrazyBooksDbContext crazyBooksDbContext, IStringLocalizer<HomeController> localizer, IStringLocalizer<SharedResource> sharedLocalizer)
         {
             _logger = logger;
             _db = crazyBooksDbContext;
             _localizer = localizer;
+            _sharedLocalizer = sharedLocalizer;
+
         }
 
         // Action présentant une View des livres disponibles pouvant être filtrés par sujet (Subject)
         public IActionResult Index()
         {
+            //i18n Traduction du titre de la page via ViewBag
+            ViewBag.Title = this._localizer["PAGETITLE"];
+
             HomeVM homeVM = new HomeVM()
 
             {
-                // Afficher seulement les Books disponibles (available)
-                // triés par date de publication (PublishedDate) du plus récent au plus ancient (décroissant)
-                Books = _db.Book.Where(b => b.Available == true).OrderByDescending(b => b.PublishedDate).Include(u => u.Publisher).Include(u => u.Subject).ToList(),
+             
+            // Afficher seulement les Books disponibles (available)
+            // triés par date de publication (PublishedDate) du plus récent au plus ancient (décroissant)
+            Books = _db.Book.Where(b => b.Available == true).OrderByDescending(b => b.PublishedDate).Include(u => u.Publisher).Include(u => u.Subject).ToList(),
                 Subjects = _db.Subject.OrderBy(s => s.Name).ToList()
             };
             return View(homeVM);
@@ -59,7 +65,6 @@ namespace CrazyBooks.Controllers
 
             return LocalRedirect(returnUrl);
         }
-
 
         public IActionResult Privacy()
         {
