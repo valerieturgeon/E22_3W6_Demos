@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PAGETITLE" xml:space="preserve">
-    <value>Home</value>
+    <value>Accueil</value>
+  </data>
+  <data name="PrivacyTitle" xml:space="preserve">
+    <value>Vie Privée</value>
   </data>
 </root>

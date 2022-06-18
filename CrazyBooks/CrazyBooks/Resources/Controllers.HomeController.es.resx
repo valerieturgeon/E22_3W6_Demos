@@ -120,4 +120,7 @@
   <data name="PAGETITLE" xml:space="preserve">
     <value>Bienvenida</value>
   </data>
+  <data name="PrivacyTitle" xml:space="preserve">
+    <value>Privacidad</value>
+  </data>
 </root>

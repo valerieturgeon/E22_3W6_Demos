@@ -117,7 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PAGETITLE" xml:space="preserve">
-    <value>Accueil</value>
+  <data name="PrivacyDescription" xml:space="preserve">
+    <value>Your private life is important for us.</value>
+  </data>
+  <data name="PrivacyTitle" xml:space="preserve">
+    <value>About Privacy</value>
   </data>
 </root>

@@ -36,7 +36,7 @@ namespace CrazyBooks.Controllers
         public IActionResult Index()
         {
             //i18n Traduction du titre de la page via ViewBag
-            ViewBag.Title = this._localizer["PAGETITLE"];
+            ViewBag.Title = _localizer["PAGETITLE"];
 
             HomeVM homeVM = new HomeVM()
 
@@ -68,6 +68,9 @@ namespace CrazyBooks.Controllers
 
         public IActionResult Privacy()
         {
+            //i18n Traduction du titre de la page via ViewData
+            ViewData["Title"] = this._localizer["PrivacyTitle"];
+            
             return View();
         }
 
