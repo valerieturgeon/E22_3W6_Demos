@@ -131,5 +131,26 @@ namespace MovieLand.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<bool> SetFavorite(int? id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+
+            Movie m = await _db.Movies.FindAsync(id);
+            if (m == null)
+            {
+                return false;
+            }
+
+            m.Favorite = !m.Favorite;
+
+            _db.Update(m);
+            await _db.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
