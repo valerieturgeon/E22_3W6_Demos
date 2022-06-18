@@ -1,13 +1,14 @@
 ﻿@*View présentant deux listes, une permettant de filtrer l'autre
-Liste des livres (book) filtrés par sujet (subject) en utilisant JavaScript et un ViewModel et une PartialView*@
+  Liste des livres (book) filtrés par sujet (subject) en utilisant JavaScript et un ViewModel et une PartialView*@
 @model CrazyBooks_Models.ViewModels.HomeVM
+@inject IViewLocalizer Localizer
 ﻿@{
-  ViewData["Title"] = "Home Page";
+    ViewData["Title"] = ViewBag.Title;
 }
 
 <div class="text-center">
-  <h1 class="display-4">Welcome at CrazyBooks!</h1>
-  <h2 class="display-6">Choose the suject and see the books you will love!</h2>
+  <h1 class="display-4">@Locals["HomeTitle"]</h1>
+  <h2 class="display-6">@Locals["HomeInstructions"]</h2>
 </div>
 
 <div class="container p-3 DivBgForm">
@@ -30,22 +31,20 @@ Liste des livres (book) filtrés par sujet (subject) en utilisant JavaScript et 
 </div>
 @section Scripts{
   <script>
-$(document).ready(function(){
+    $(document).ready(function () {
 
-    $(".filter-button").click(function(){
+      $(".filter-button").click(function () {
 
         var value = $(this).attr('data-filter');
-        if(value == "all")
-        {
-            $('.filter').show('1000');
+        if (value == "all") {
+          $('.filter').show('1000');
         }
-        else
-        {
-            $(".filter").not('.'+value).hide('3000');
-            $('.filter').filter('.'+value).show('3000');
+        else {
+          $(".filter").not('.' + value).hide('3000');
+          $('.filter').filter('.' + value).show('3000');
 
         }
-    });
+      });
 
-});</script>
+    });</script>
 }
