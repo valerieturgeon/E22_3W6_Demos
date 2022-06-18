@@ -5,7 +5,7 @@
   <form class="form-horizontal" method="post" asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group row">
-      <h2 class="text-info pl-3">Create a Subject</h2>
+      <h2 class="text-info pl-3">@SharedLocals["CreateSubject"]</h2>
       <hr />
     </div>
 
@@ -25,10 +25,10 @@
         <div class="form-group row p-2">
           <div class="col-8 offset-2 row">
             <div class="col">
-              <button type="submit" class="btn btn-info w-100"><i class="far fa-plus-square"></i> &nbsp;Create </button>
-              </div>
+              <button type="submit" class="btn btn-success w-100"><i class="far fa-plus-square"></i> &nbsp;@SharedLocals["Create"] </button>
+            </div>
             <div class="col">
-              <a asp-action="Index" class="btn btn-success w-100"><i class="fas fa-th-list"></i>&nbsp;Back to List</a>
+              <a asp-action="Index" class="btn btn-primary w-100"><i class="fas fa-th-list"></i>&nbsp;@SharedLocals["BackToList"]</a>
             </div>
           </div>
         </div>

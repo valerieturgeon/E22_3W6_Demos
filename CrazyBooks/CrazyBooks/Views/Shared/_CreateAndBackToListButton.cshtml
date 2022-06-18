@@ -1,8 +1,8 @@
 ﻿<div class="row">
     <div class="col">
-        <button type="submit" onclick="return validateInput()"  class="btn btn-success form-control"><i class="far fa-plus-square"></i>Create</button>
+      <button type="submit" onclick="return validateInput()" class="btn btn-success form-control"><i class="far fa-plus-square"></i>@SharedLocals["Create"]</button>
     </div>
     <div class="col">
-      <a asp-action="Index" class="btn btn-primary form-control"><i class="fas fa-th-list"></i>&nbsp;Back to List</a>
+      <a asp-action="Index" class="btn btn-primary form-control"><i class="fas fa-th-list"></i>&nbsp;@SharedLocals["BackToList"]</a>
     </div>
 </div>
