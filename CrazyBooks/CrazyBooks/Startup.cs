@@ -47,13 +47,15 @@ namespace CrazyBooks
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews().AddRazorRuntimeCompilation()
                     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                    .AddDataAnnotationsLocalization();
-            
-            // Pour la méthode Ressources partagées
-            /*.AddDataAnnotationsLocalization(options => {
-                   options.DataAnnotationLocalizerProvider = (type, factory) =>
-                       factory.Create(typeof(SharedResource));
-                   }); */
+            // i18n Pour modèle de données la méthode fichiers ressources séparés
+            //.AddDataAnnotationsLocalization();
+
+            // i18n Pour modèle de données la méthode Ressources partagées
+            .AddDataAnnotationsLocalization(options =>
+            {
+                options.DataAnnotationLocalizerProvider = (type, factory) =>
+                    factory.Create(typeof(SharedResource)); //nom de la classe créée vide, attention au PATH
+            });
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
