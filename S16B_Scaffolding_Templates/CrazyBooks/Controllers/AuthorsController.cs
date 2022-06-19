@@ -10,17 +10,17 @@ namespace CrazyBooks.Controllers
 {
     public class AuthorsController : Controller
     {
-        private readonly CrazyBooksDbContext _context;
+        private readonly CrazyBooksDbContext _db;
 
-        public AuthorsController(CrazyBooksDbContext context)
+        public AuthorsController(CrazyBooksDbContext db)
         {
-            _context = context;
+            _db = db;
         }
 
         // GET: Authors
         public async Task<IActionResult> Index()
         {
-            var crazyBooksDbContext = _context.Authors;
+            var crazyBooksDbContext = _db.Authors.Include(a => a.AuthorDetail);
             return View(await crazyBooksDbContext.ToListAsync());
         }
 
@@ -32,7 +32,8 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Authors
+            var author = await _db.Authors
+                .Include(a => a.AuthorDetail)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (author == null)
             {
@@ -45,6 +46,7 @@ namespace CrazyBooks.Controllers
         // GET: Authors/Create
         public IActionResult Create()
         {
+            ViewData["AuthorDetail_Id"] = new SelectList(_db.AuthorsDetail, "Id", "Id");
             return View();
         }
 
@@ -53,14 +55,15 @@ namespace CrazyBooks.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName")] Author author)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,AuthorDetail_Id")] Author author)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(author);
-                await _context.SaveChangesAsync();
+                _db.Add(author);
+                await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AuthorDetail_Id"] = new SelectList(_db.AuthorsDetail, "Id", "Id", author.AuthorDetail_Id);
             return View(author);
         }
 
@@ -72,11 +75,12 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Authors.FindAsync(id);
+            var author = await _db.Authors.FindAsync(id);
             if (author == null)
             {
                 return NotFound();
             }
+            ViewData["AuthorDetail_Id"] = new SelectList(_db.AuthorsDetail, "Id", "Id", author.AuthorDetail_Id);
             return View(author);
         }
 
@@ -85,7 +89,7 @@ namespace CrazyBooks.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName")] Author author)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,AuthorDetail_Id")] Author author)
         {
             if (id != author.Id)
             {
@@ -96,8 +100,8 @@ namespace CrazyBooks.Controllers
             {
                 try
                 {
-                    _context.Update(author);
-                    await _context.SaveChangesAsync();
+                    _db.Update(author);
+                    await _db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -112,6 +116,7 @@ namespace CrazyBooks.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AuthorDetail_Id"] = new SelectList(_db.AuthorsDetail, "Id", "Id", author.AuthorDetail_Id);
             return View(author);
         }
 
@@ -123,7 +128,8 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Authors
+            var author = await _db.Authors
+                .Include(a => a.AuthorDetail)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (author == null)
             {
@@ -138,15 +144,15 @@ namespace CrazyBooks.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var author = await _context.Authors.FindAsync(id);
-            _context.Authors.Remove(author);
-            await _context.SaveChangesAsync();
+            var author = await _db.Authors.FindAsync(id);
+            _db.Authors.Remove(author);
+            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AuthorExists(int id)
         {
-            return _context.Authors.Any(e => e.Id == id);
+            return _db.Authors.Any(e => e.Id == id);
         }
     }
 }
