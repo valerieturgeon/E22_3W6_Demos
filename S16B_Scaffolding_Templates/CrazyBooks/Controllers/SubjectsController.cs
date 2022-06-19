@@ -9,17 +9,17 @@ namespace CrazyBooks.Controllers
 {
     public class SubjectsController : Controller
     {
-        private readonly CrazyBooksDbContext _context;
+        private readonly CrazyBooksDbContext _db;
 
-        public SubjectsController(CrazyBooksDbContext context)
+        public SubjectsController(CrazyBooksDbContext db)
         {
-            _context = context;
+            _db = db;
         }
 
         // GET: Subjects
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Subjects.ToListAsync());
+            return View(await _db.Subjects.ToListAsync());
         }
 
         // GET: Subjects/Details/5
@@ -30,7 +30,7 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects
+            var subject = await _db.Subjects
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (subject == null)
             {
@@ -55,8 +55,8 @@ namespace CrazyBooks.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(subject);
-                await _context.SaveChangesAsync();
+                _db.Add(subject);
+                await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(subject);
@@ -70,7 +70,7 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects.FindAsync(id);
+            var subject = await _db.Subjects.FindAsync(id);
             if (subject == null)
             {
                 return NotFound();
@@ -94,8 +94,8 @@ namespace CrazyBooks.Controllers
             {
                 try
                 {
-                    _context.Update(subject);
-                    await _context.SaveChangesAsync();
+                    _db.Update(subject);
+                    await _db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -121,7 +121,7 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects
+            var subject = await _db.Subjects
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (subject == null)
             {
@@ -136,15 +136,15 @@ namespace CrazyBooks.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var subject = await _context.Subjects.FindAsync(id);
-            _context.Subjects.Remove(subject);
-            await _context.SaveChangesAsync();
+            var subject = await _db.Subjects.FindAsync(id);
+            _db.Subjects.Remove(subject);
+            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SubjectExists(int id)
         {
-            return _context.Subjects.Any(e => e.Id == id);
+            return _db.Subjects.Any(e => e.Id == id);
         }
     }
 }
