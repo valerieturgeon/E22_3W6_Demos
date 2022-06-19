@@ -7,87 +7,47 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CrazyBooks_DataAccess.Data;
 using CrazyBooks_Models.Models;
-using CrazyBooks_Models.ViewModels;
+using CrazyBooks_Services.Interfaces;
 using CrazyBooks_Utility;
+using CrazyBooks_Models.ViewModels;
 
 namespace CrazyBooks.Controllers
 {
     public class PublishersController : Controller
     {
-        private readonly CrazyBooksDbContext _db;
+        private readonly IPublishersService _publishersSvc;
 
-        public PublishersController(CrazyBooksDbContext db)
+        public PublishersController(IPublishersService publishersSvc)
         {
-            _db = db;
+            _publishersSvc = publishersSvc;
         }
 
         // GET: Publishers
         public async Task<IActionResult> Index()
         {
-            return View(
-                    new PublishersIndexVM(
-                        "Publishers",
-                        "Publishers",
-                        new List<PageLinks>() { PageLinks.Create },
-                        await _db.Publishers
-                            
-                            .ToListAsync()
-                    )
-            );
+            return View(await _publishersSvc.GetIndexData());
         }
 
         // GET: Publishers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || !_publishersSvc.Exists((int)id))
             {
                 return NotFound();
             }
 
-            Publisher publisher = await _db.Publishers
-                                                
-                                                    .FirstOrDefaultAsync(e => e.Id == id);
-            if (publisher == null)
-            {
-                return NotFound();
-            }
-
-            return View(
-                    "Display",
-                    new PublishersDisplayVM(
-                        true,
-                        "Publisher",
-                        "Publisher",
-                        new List<PageLinks>() { PageLinks.BackToList, PageLinks.Edit },
-                        publisher
-                    )
-            );
+            return View("Display", await _publishersSvc.GetDisplayData(ControllerAction.Details, (int)id));
         }
 
         // GET: Publishers/Upsert/5
         public async Task<IActionResult> Upsert(int? id)
-        {
-            bool isCreate = id == null;
-            Publisher publisher = null;
-
-            if (!isCreate)
+        {    
+            if (id != null && !_publishersSvc.Exists((int)id))
             {
-                // Extra stuff for Edit
-                publisher = await _db.Publishers.FirstOrDefaultAsync(e => e.Id == id);
-                if (publisher == null)
-                {
-                    return NotFound();
-                }
+                return NotFound();
             }
 
-            return View(
-                GetPublishersUpsertVM(
-                    isCreate, 
-                    new Dictionary<string,SelectList­>(){
-                    }, 
-                    publisher
-                )
-            );
+            return View(await _publishersSvc.GetUpsertData(id == null ? ControllerAction.Create : ControllerAction.Edit, id));
         }
 
         // POST: Publishers/Upsert
@@ -102,71 +62,37 @@ namespace CrazyBooks.Controllers
                 ModelState.Remove("Publisher.Id");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (vm.IsCreate)
-                {
-                    _db.Add(vm.Publisher);
-                }
-                else
-                {
-                    try
-                    {
-                        _db.Update(vm.Publisher);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!PublisherExists(vm.Publisher.Id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                }
-                await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(_publishersSvc.GetUpsertData(vm.IsCreate ? ControllerAction.Create : ControllerAction.Edit, vm.Publisher));
             }
 
-            return View(
-                    GetPublishersUpsertVM(
-                        vm.IsCreate, 
-                        new Dictionary<string,SelectList­>(){
-                        }, 
-                        vm.Publisher
-                    )
-            );
+            if (vm.IsCreate)
+            {
+                await _publishersSvc.Add(vm.Publisher);
+            }
+            else
+            {
+                if (!_publishersSvc.Exists(vm.Publisher.Id))
+                {
+                    return NotFound();
+                }
+
+                await _publishersSvc.Update(vm.Publisher);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Publishers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (id == null || !_publishersSvc.Exists((int)id))
             {
                 return NotFound();
             }
 
-            Publisher publisher = await _db.Publishers
-                                                
-                                                    .FirstOrDefaultAsync(e => e.Id == id);
-            if (publisher == null)
-            {
-                return NotFound();
-            }
-
-            return View(
-                    "Display",
-                    new PublishersDisplayVM(
-                        false,
-                        "Publisher",
-                        "Are you sure you want to delete this Publisher",
-                        new List<PageLinks>() { PageLinks.BackToList },
-                        publisher,
-                        "Supprimer"
-                    )
-            );
+            return View("Display", await _publishersSvc.GetDisplayData(ControllerAction.Delete, (int)id));
         }
 
         // POST: Publishers/Delete/5
@@ -174,28 +100,9 @@ namespace CrazyBooks.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Publisher publisher = await _db.Publishers.FindAsync(id);
-            _db.Publishers.Remove(publisher);
-            await _db.SaveChangesAsync();
+            await _publishersSvc.Delete(id);
+
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PublisherExists(int id)
-        {
-            return _db.Publishers.Any(e => e.Id == id);
-        }
-
-        private PublishersUpsertVM GetPublishersUpsertVM(bool isCreate, Dictionary<string,SelectList­> selectLists, Publisher publisher = null)
-        {
-            return new PublishersUpsertVM(
-                        isCreate,
-                        "Publisher",
-                        "Publisher",
-                        new List<PageLinks>() { PageLinks.BackToList },
-                        isCreate ? "Ajouter" : "Modifier",
-                        selectLists,
-                        publisher
-            );
         }
     }
 }

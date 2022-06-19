@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using CrazyBooks_DataAccess.Data;
-using CrazyBooks_Models.Models;
+﻿using CrazyBooks_Models.ViewModels;
 using CrazyBooks_Services.Interfaces;
 using CrazyBooks_Utility;
-using CrazyBooks_Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CrazyBooks.Controllers
 {
-    public class BooksController : Controller
+    public class BooksControllerBase : Controller
     {
         private readonly IBooksService _booksSvc;
 
-        public BooksController(IBooksService booksSvc)
+        public BooksControllerBase(IBooksService bookSvc)
         {
-            _booksSvc = booksSvc;
+            _booksSvc = bookSvc;
         }
 
         // GET: Books
@@ -41,13 +34,15 @@ namespace CrazyBooks.Controllers
 
         // GET: Books/Upsert/5
         public async Task<IActionResult> Upsert(int? id)
-        {    
+        {
+            ControllerAction action = id == null ? ControllerAction.Create : ControllerAction.Edit;
+
             if (id != null && !_booksSvc.Exists((int)id))
             {
                 return NotFound();
             }
 
-            return View(await _booksSvc.GetUpsertData(id == null ? ControllerAction.Create : ControllerAction.Edit, id));
+            return View(await _booksSvc.GetUpsertData(action, id));
         }
 
         // POST: Books/Upsert
@@ -57,13 +52,14 @@ namespace CrazyBooks.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(BooksUpsertVM vm)
         {
-            if(vm.IsCreate)
+            if (vm.IsCreate)
             {
                 ModelState.Remove("Book.Id");
             }
-
+                
             if (!ModelState.IsValid)
             {
+
                 return View(_booksSvc.GetUpsertData(vm.IsCreate ? ControllerAction.Create : ControllerAction.Edit, vm.Book));
             }
 

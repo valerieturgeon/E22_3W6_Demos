@@ -31,34 +31,14 @@ namespace @Model.ControllerNamespace
     var primaryKeyType = Model.ModelMetadata.PrimaryKeys[0].TypeName;
     var primaryKeyShortTypeName = Model.ModelMetadata.PrimaryKeys[0].ShortTypeName;
     var primaryKeyNullableTypeName = GetNullableTypeName(primaryKeyType, primaryKeyShortTypeName);
-    var modelProperties = new List<string>();
-    foreach (var property in Model.ModelMetadata.Properties)
-    {
-        if (property.Scaffold)
-        {
-            modelProperties.Add(property.PropertyName);
-        }
-    }
-    var bindString = string.Join(",", modelProperties);
-    var contextTypeName = Model.ContextTypeName;
+    var serviceInterfaceName = "I" + entitySetName + "Service";
+    var serviceVariableName = entitySetName.ToLower() + "Svc";
+    var servicePropertyName = "_" + serviceVariableName;
     var entitySetVar = Model.EntitySetVariable ??
         (String.IsNullOrEmpty(entitySetName)
             ? entitySetName
             : (entitySetName.Substring(0, length: 1).ToLowerInvariant() + entitySetName.Substring(1)));
     var primaryKeyName = Model.ModelMetadata.PrimaryKeys[0].PropertyName;
-    var lambdaVar = Model.ModelVariable[0];
-    var relatedProperties = new Dictionary<string, dynamic>();
-    foreach (var nav in Model.ModelMetadata.Navigations)
-    {
-        relatedProperties.Add(nav.AssociationPropertyName, nav);
-
-    }
-
-    var inlineIncludes = "";
-    foreach (var property in relatedProperties.Values)
-    {
-        inlineIncludes += string.Format("{0}.Include({1} => {1}.{2})", Environment.NewLine, lambdaVar, property.AssociationPropertyName);
-    }
 
     if (!string.IsNullOrEmpty(Model.AreaName))
     {
@@ -67,93 +47,40 @@ namespace @Model.ControllerNamespace
 }
     public class @Model.ControllerName : Controller
     {
-        private readonly @Model.ContextTypeName _db;
+        private readonly @serviceInterfaceName @servicePropertyName;
 
-        public @(Model.ControllerName)(@Model.ContextTypeName db)
+        public @(Model.ControllerName)(@serviceInterfaceName @serviceVariableName)
         {
-            _db = db;
+            @servicePropertyName = @serviceVariableName;
         }
 
         // GET: @routePrefix
 @{
         @:public async Task<IActionResult> Index()
         @:{
-    string includeExpressions = "";
-    includeExpressions = String.Join("", relatedProperties
-        .Values
-        .Select(property => String.Format(".Include({0} => {0}.{1})", lambdaVar, property.AssociationPropertyName)));
-            @:return View(
-                    @:new @(entitySetName)IndexVM(
-                        @:"@(entitySetName)",
-                        @:"@(entitySetName)",
-                        @:new List<PageLinks>() { PageLinks.Create },
-                        @:await _db.@(entitySetName)
-                            @:@includeExpressions
-                            @:.ToListAsync()
-                    @:)
-            @:);
+            @:return View(await @(servicePropertyName).GetIndexData());
 }        }
 
         // GET: @routePrefix/Details/5
         public async Task<IActionResult> Details(@primaryKeyNullableTypeName id)
         {
-            if (id == null)
+            if (id == null || !@(servicePropertyName).Exists((int)id))
             {
                 return NotFound();
             }
 
-            @Model.ModelTypeName @Model.ModelVariable = await _db.@(entitySetName)
-                                                @inlineIncludes
-                                                    .FirstOrDefaultAsync(e => e.@primaryKeyName == id);
-            if (@Model.ModelVariable == null)
-            {
-                return NotFound();
-            }
-
-            return View(
-                    "Display",
-                    new @(entitySetName)DisplayVM(
-                        true,
-                        "@Model.ModelTypeName",
-                        "@Model.ModelTypeName",
-                        new List<PageLinks>() { PageLinks.BackToList, PageLinks.Edit },
-                        @Model.ModelVariable
-                    )
-            );
+            return View("Display", await @(servicePropertyName).GetDisplayData(ControllerAction.Details, (int)id));
         }
 
         // GET: @routePrefix/Upsert/5
         public async Task<IActionResult> Upsert(@primaryKeyNullableTypeName id)
-        {
-            bool isCreate = id == null;
-            @Model.ModelTypeName @Model.ModelVariable = null;
-
-            if (!isCreate)
+        {    
+            if (id != null && !@(servicePropertyName).Exists((int)id))
             {
-                // Extra stuff for Edit
-                @Model.ModelVariable = await _db.@(entitySetName).FirstOrDefaultAsync(e => e.@primaryKeyName == id);
-                if (@Model.ModelVariable == null)
-                {
-                    return NotFound();
-                }
+                return NotFound();
             }
 
-            return View(
-                Get@(entitySetName)UpsertVM(
-                    isCreate, 
-                    new Dictionary<string,SelectList­>(){
-@{
-    int nbVals = relatedProperties.Values.Count;
-    int cpt = 0;
-    foreach (var property in relatedProperties.Values)
-    {
-                        @:{ "@("ListFor" + property.ForeignKeyPropertyNames[0])", new SelectList(_db.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName") }@(cpt < nbVals?",":"")
-    }
-}
-                    }, 
-                    @Model.ModelVariable
-                )
-            );
+            return View(await @(servicePropertyName).GetUpsertData(id == null ? ControllerAction.Create : ControllerAction.Edit, id));
         }
 
         // POST: @routePrefix/Upsert
@@ -168,79 +95,37 @@ namespace @Model.ControllerNamespace
                 ModelState.Remove("@(Model.ModelTypeName).@primaryKeyName");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (vm.IsCreate)
-                {
-                    _db.Add(vm.@(Model.ModelTypeName));
-                }
-                else
-                {
-                    try
-                    {
-                        _db.Update(vm.@(Model.ModelTypeName));
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!@(Model.ModelTypeName)Exists(vm.@(Model.ModelTypeName).@primaryKeyName))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                }
-                await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(@(servicePropertyName).GetUpsertData(vm.IsCreate ? ControllerAction.Create : ControllerAction.Edit, vm.@(Model.ModelTypeName)));
             }
 
-            return View(
-                    Get@(entitySetName)UpsertVM(
-                        vm.IsCreate, 
-                        new Dictionary<string,SelectList­>(){
-@{
-    nbVals = relatedProperties.Values.Count;
-    cpt = 0;
-    foreach (var property in relatedProperties.Values)
-    {
-                        @:{ "@("ListFor" + property.ForeignKeyPropertyNames[0])", new SelectList(_db.@property.EntitySetName, "@property.PrimaryKeyNames[0]", "@property.DisplayPropertyName") }@(cpt < nbVals?",":"")
-    }
-}
-                        }, 
-                        vm.@(Model.ModelTypeName)
-                    )
-            );
+            if (vm.IsCreate)
+            {
+                await @(servicePropertyName).Add(vm.@(Model.ModelTypeName));
+            }
+            else
+            {
+                if (!@(servicePropertyName).Exists(vm.@(Model.ModelTypeName).@primaryKeyName))
+                {
+                    return NotFound();
+                }
+
+                await @(servicePropertyName).Update(vm.@(Model.ModelTypeName));
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: @routePrefix/Delete/5
         public async Task<IActionResult> Delete(@primaryKeyNullableTypeName id)
         {
-            if (id == null)
+            if (id == null || !@(servicePropertyName).Exists((int)id))
             {
                 return NotFound();
             }
 
-            @Model.ModelTypeName @Model.ModelVariable = await _db.@(entitySetName)
-                                                @inlineIncludes
-                                                    .FirstOrDefaultAsync(e => e.@primaryKeyName == id);
-            if (@Model.ModelVariable == null)
-            {
-                return NotFound();
-            }
-
-            return View(
-                    "Display",
-                    new @(entitySetName)DisplayVM(
-                        false,
-                        "@Model.ModelTypeName",
-                        "Are you sure you want to delete this @Model.ModelTypeName",
-                        new List<PageLinks>() { PageLinks.BackToList },
-                        @Model.ModelVariable,
-                        "Supprimer"
-                    )
-            );
+            return View("Display", await @(servicePropertyName).GetDisplayData(ControllerAction.Delete, (int)id));
         }
 
         // POST: @routePrefix/Delete/5
@@ -248,28 +133,9 @@ namespace @Model.ControllerNamespace
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(@primaryKeyShortTypeName id)
         {
-            @(Model.ModelTypeName) @Model.ModelVariable = await _db.@(entitySetName).FindAsync(id);
-            _db.@(entitySetName).Remove(@Model.ModelVariable);
-            await _db.SaveChangesAsync();
+            await @(servicePropertyName).Delete(id);
+
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool @(Model.ModelTypeName)Exists(@primaryKeyShortTypeName id)
-        {
-            return _db.@(entitySetName).Any(e => e.@primaryKeyName == id);
-        }
-
-        private @(entitySetName)UpsertVM Get@(entitySetName)UpsertVM(bool isCreate, Dictionary<string,SelectList­> selectLists, @(Model.ModelTypeName) @Model.ModelVariable = null)
-        {
-            return new @(entitySetName)UpsertVM(
-                        isCreate,
-                        "@(Model.ModelTypeName)",
-                        "@(Model.ModelTypeName)",
-                        new List<PageLinks>() { PageLinks.BackToList },
-                        isCreate ? "Ajouter" : "Modifier",
-                        selectLists,
-                        @Model.ModelVariable
-            );
         }
     }
 }

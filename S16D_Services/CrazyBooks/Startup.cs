@@ -14,6 +14,8 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Options;
+using CrazyBooks_Services.Interfaces;
+using CrazyBooks_Services;
 
 namespace CrazyBooks
 {
@@ -37,6 +39,11 @@ namespace CrazyBooks
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IAuthorsService, AuthorsService>();
+            services.AddScoped<IBooksService, BooksService>();
+            services.AddScoped<IPublishersService, PublishersService>();
+            services.AddScoped<ISubjectsService, SubjectsService>();
+
             services.AddDbContext<CrazyBooksDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString()

@@ -1,94 +1,53 @@
-﻿using CrazyBooks_DataAccess.Data;
-using CrazyBooks_Models.Models;
-using CrazyBooks_Models.ViewModels;
-using CrazyBooks_Utility;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using CrazyBooks_DataAccess.Data;
+using CrazyBooks_Models.Models;
+using CrazyBooks_Services.Interfaces;
+using CrazyBooks_Utility;
+using CrazyBooks_Models.ViewModels;
 
 namespace CrazyBooks.Controllers
 {
     public class AuthorsController : Controller
     {
-        private readonly CrazyBooksDbContext _db;
+        private readonly IAuthorsService _authorsSvc;
 
-        public AuthorsController(CrazyBooksDbContext db)
+        public AuthorsController(IAuthorsService authorsSvc)
         {
-            _db = db;
+            _authorsSvc = authorsSvc;
         }
 
         // GET: Authors
         public async Task<IActionResult> Index()
         {
-            return View(
-                    new AuthorsIndexVM(
-                        "Authors",
-                        "Authors",
-                        new List<PageLinks>() { PageLinks.Create },
-                        await _db.Authors
-                            .Include(a => a.AuthorDetail)
-                            .ToListAsync()
-                    )
-            );
+            return View(await _authorsSvc.GetIndexData());
         }
 
         // GET: Authors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || !_authorsSvc.Exists((int)id))
             {
                 return NotFound();
             }
 
-            Author author = await _db.Authors
-                                                
-.Include(a => a.AuthorDetail)
-                                                    .FirstOrDefaultAsync(e => e.Id == id);
-            if (author == null)
-            {
-                return NotFound();
-            }
-
-            return View(
-                    "Display",
-                    new AuthorsDisplayVM(
-                        true,
-                        "Author",
-                        "Author",
-                        new List<PageLinks>() { PageLinks.BackToList, PageLinks.Edit },
-                        author
-                    )
-            );
+            return View("Display", await _authorsSvc.GetDisplayData(ControllerAction.Details, (int)id));
         }
 
         // GET: Authors/Upsert/5
         public async Task<IActionResult> Upsert(int? id)
-        {
-            bool isCreate = id == null;
-            Author author = null;
-
-            if (!isCreate)
+        {    
+            if (id != null && !_authorsSvc.Exists((int)id))
             {
-                // Extra stuff for Edit
-                author = await _db.Authors.FirstOrDefaultAsync(e => e.Id == id);
-                if (author == null)
-                {
-                    return NotFound();
-                }
+                return NotFound();
             }
 
-            return View(
-                GetAuthorsUpsertVM(
-                    isCreate, 
-                    new Dictionary<string,SelectList­>(){
-                        { "ListForAuthorDetail_Id", new SelectList(_db.AuthorsDetail, "Id", "Id") },
-                    }, 
-                    author
-                )
-            );
+            return View(await _authorsSvc.GetUpsertData(id == null ? ControllerAction.Create : ControllerAction.Edit, id));
         }
 
         // POST: Authors/Upsert
@@ -103,73 +62,37 @@ namespace CrazyBooks.Controllers
                 ModelState.Remove("Author.Id");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (vm.IsCreate)
-                {
-                    _db.Add(vm.Author);
-                }
-                else
-                {
-                    try
-                    {
-                        _db.Update(vm.Author);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!AuthorExists(vm.Author.Id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                }
-                await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(_authorsSvc.GetUpsertData(vm.IsCreate ? ControllerAction.Create : ControllerAction.Edit, vm.Author));
             }
 
-            return View(
-                    GetAuthorsUpsertVM(
-                        vm.IsCreate, 
-                        new Dictionary<string,SelectList­>(){
-                        { "ListForAuthorDetail_Id", new SelectList(_db.AuthorsDetail, "Id", "Id") },
-                        }, 
-                        vm.Author
-                    )
-            );
+            if (vm.IsCreate)
+            {
+                await _authorsSvc.Add(vm.Author);
+            }
+            else
+            {
+                if (!_authorsSvc.Exists(vm.Author.Id))
+                {
+                    return NotFound();
+                }
+
+                await _authorsSvc.Update(vm.Author);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Authors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (id == null || !_authorsSvc.Exists((int)id))
             {
                 return NotFound();
             }
 
-            Author author = await _db.Authors
-                                                
-.Include(a => a.AuthorDetail)
-                                                    .FirstOrDefaultAsync(e => e.Id == id);
-            if (author == null)
-            {
-                return NotFound();
-            }
-
-            return View(
-                    "Display",
-                    new AuthorsDisplayVM(
-                        false,
-                        "Author",
-                        "Are you sure you want to delete this Author",
-                        new List<PageLinks>() { PageLinks.BackToList },
-                        author,
-                        "Supprimer"
-                    )
-            );
+            return View("Display", await _authorsSvc.GetDisplayData(ControllerAction.Delete, (int)id));
         }
 
         // POST: Authors/Delete/5
@@ -177,28 +100,9 @@ namespace CrazyBooks.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Author author = await _db.Authors.FindAsync(id);
-            _db.Authors.Remove(author);
-            await _db.SaveChangesAsync();
+            await _authorsSvc.Delete(id);
+
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool AuthorExists(int id)
-        {
-            return _db.Authors.Any(e => e.Id == id);
-        }
-
-        private AuthorsUpsertVM GetAuthorsUpsertVM(bool isCreate, Dictionary<string,SelectList­> selectLists, Author author = null)
-        {
-            return new AuthorsUpsertVM(
-                        isCreate,
-                        "Author",
-                        "Author",
-                        new List<PageLinks>() { PageLinks.BackToList },
-                        isCreate ? "Ajouter" : "Modifier",
-                        selectLists,
-                        author
-            );
         }
     }
 }
