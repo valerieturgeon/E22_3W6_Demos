@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CrazyBooks_DataAccess.Data;
+using CrazyBooks_Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CrazyBooks_DataAccess.Data;
-using CrazyBooks_Models.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CrazyBooks.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly CrazyBooksDbContext _context;
+        private readonly CrazyBooksDbContext _db;
 
-        public BooksController(CrazyBooksDbContext context)
+        public BooksController(CrazyBooksDbContext db)
         {
-            _context = context;
+            _db = db;
         }
 
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var crazyBooksDbContext = _context.Books.Include(b => b.Publisher).Include(b => b.Subject);
+            var crazyBooksDbContext = _db.Books.Include(b => b.Publisher).Include(b => b.Subject);
             return View(await crazyBooksDbContext.ToListAsync());
         }
 
@@ -34,7 +32,7 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books
+            var book = await _db.Books
                 .Include(b => b.Publisher)
                 .Include(b => b.Subject)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -49,8 +47,8 @@ namespace CrazyBooks.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["Publisher_Id"] = new SelectList(_context.Publishers, "Id", "Name");
-            ViewData["Subject_Id"] = new SelectList(_context.Subjects, "Id", "Name");
+            ViewData["Publisher_Id"] = new SelectList(_db.Publishers, "Id", "Name");
+            ViewData["Subject_Id"] = new SelectList(_db.Subjects, "Id", "Name");
             return View();
         }
 
@@ -63,12 +61,12 @@ namespace CrazyBooks.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
+                _db.Add(book);
+                await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Publisher_Id"] = new SelectList(_context.Publishers, "Id", "Name", book.Publisher_Id);
-            ViewData["Subject_Id"] = new SelectList(_context.Subjects, "Id", "Name", book.Subject_Id);
+            ViewData["Publisher_Id"] = new SelectList(_db.Publishers, "Id", "Name", book.Publisher_Id);
+            ViewData["Subject_Id"] = new SelectList(_db.Subjects, "Id", "Name", book.Subject_Id);
             return View(book);
         }
 
@@ -80,13 +78,13 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.FindAsync(id);
+            var book = await _db.Books.FindAsync(id);
             if (book == null)
             {
                 return NotFound();
             }
-            ViewData["Publisher_Id"] = new SelectList(_context.Publishers, "Id", "Name", book.Publisher_Id);
-            ViewData["Subject_Id"] = new SelectList(_context.Subjects, "Id", "Name", book.Subject_Id);
+            ViewData["Publisher_Id"] = new SelectList(_db.Publishers, "Id", "Name", book.Publisher_Id);
+            ViewData["Subject_Id"] = new SelectList(_db.Subjects, "Id", "Name", book.Subject_Id);
             return View(book);
         }
 
@@ -106,8 +104,8 @@ namespace CrazyBooks.Controllers
             {
                 try
                 {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
+                    _db.Update(book);
+                    await _db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,8 +120,8 @@ namespace CrazyBooks.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Publisher_Id"] = new SelectList(_context.Publishers, "Id", "Name", book.Publisher_Id);
-            ViewData["Subject_Id"] = new SelectList(_context.Subjects, "Id", "Name", book.Subject_Id);
+            ViewData["Publisher_Id"] = new SelectList(_db.Publishers, "Id", "Name", book.Publisher_Id);
+            ViewData["Subject_Id"] = new SelectList(_db.Subjects, "Id", "Name", book.Subject_Id);
             return View(book);
         }
 
@@ -135,7 +133,7 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books
+            var book = await _db.Books
                 .Include(b => b.Publisher)
                 .Include(b => b.Subject)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -152,15 +150,15 @@ namespace CrazyBooks.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Books.FindAsync(id);
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
+            var book = await _db.Books.FindAsync(id);
+            _db.Books.Remove(book);
+            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BookExists(int id)
         {
-            return _context.Books.Any(e => e.Id == id);
+            return _db.Books.Any(e => e.Id == id);
         }
     }
 }
