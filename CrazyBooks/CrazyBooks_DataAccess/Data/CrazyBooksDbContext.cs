@@ -30,6 +30,9 @@ namespace CrazyBooks_DataAccess.Data
 
             //composite key
             modelBuilder.Entity<AuthorBook>().HasKey(ba => new { ba.Author_Id, ba.Book_Id });
+
+            //Générer des données de départ
+            modelBuilder.GenerateData();
         }
     }
 }

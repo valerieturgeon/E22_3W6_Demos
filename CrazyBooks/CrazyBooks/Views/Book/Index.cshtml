@@ -18,7 +18,6 @@
     <table class="table table-bordered table-striped border-primary" style="width:100%">
       <thead class="bg-primary">
         <tr>
-          <th> @Html.DisplayNameFor(model => model.Id)</th>
           <th> @Html.DisplayNameFor(model => model.Title)</th>
           <th> @Html.DisplayNameFor(model => model.ISBN)</th>
           <th> @Html.DisplayNameFor(model => model.Price)</th>
@@ -32,18 +31,17 @@
         @foreach (var item in Model.OrderBy(i => i.Title))
         {
         <tr class="text-dark">
-          <td  width="0%">@item.Id</td>
-          <td width="16%">@item.Title</td>
+          <td width="20%">@item.Title</td>
           <td width="8%">@item.ISBN</td>
           <td width="5%">@item.Price</td>
           <td width="10%">@item.Subject.Name</td>
 
           <td width="28%" class="text-center">
             <div class="btn-group" role="group">
-              <a class="btn btn-warning mx-2" asp-controller="Book" asp-action="Upsert" asp-route-Id="@item.Id">
+              <a class="btn btn-info mx-2" asp-controller="Book" asp-action="Upsert" asp-route-Id="@item.Id">
                 Edit
               </a>
-              <a class="btn btn-warning mx-2" asp-controller="Publisher" asp-action="Delete" asp-route-Id="@item.Id">
+              <a class="btn btn-danger mx-2" asp-controller="Publisher" asp-action="Delete" asp-route-Id="@item.Id">
                 Delete
               </a><br />
               <a class="btn btn-secondary mx-2">
