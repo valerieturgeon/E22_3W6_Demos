@@ -9,17 +9,17 @@ namespace CrazyBooks.Controllers
 {
     public class PublishersController : Controller
     {
-        private readonly CrazyBooksDbContext _context;
+        private readonly CrazyBooksDbContext _db;
 
-        public PublishersController(CrazyBooksDbContext context)
+        public PublishersController(CrazyBooksDbContext db)
         {
-            _context = context;
+            _db = db;
         }
 
         // GET: Publishers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Publishers.ToListAsync());
+            return View(await _db.Publishers.ToListAsync());
         }
 
         // GET: Publishers/Details/5
@@ -30,7 +30,7 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var publisher = await _context.Publishers
+            var publisher = await _db.Publishers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (publisher == null)
             {
@@ -55,8 +55,8 @@ namespace CrazyBooks.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(publisher);
-                await _context.SaveChangesAsync();
+                _db.Add(publisher);
+                await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(publisher);
@@ -70,7 +70,7 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var publisher = await _context.Publishers.FindAsync(id);
+            var publisher = await _db.Publishers.FindAsync(id);
             if (publisher == null)
             {
                 return NotFound();
@@ -94,8 +94,8 @@ namespace CrazyBooks.Controllers
             {
                 try
                 {
-                    _context.Update(publisher);
-                    await _context.SaveChangesAsync();
+                    _db.Update(publisher);
+                    await _db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -121,7 +121,7 @@ namespace CrazyBooks.Controllers
                 return NotFound();
             }
 
-            var publisher = await _context.Publishers
+            var publisher = await _db.Publishers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (publisher == null)
             {
@@ -136,15 +136,15 @@ namespace CrazyBooks.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var publisher = await _context.Publishers.FindAsync(id);
-            _context.Publishers.Remove(publisher);
-            await _context.SaveChangesAsync();
+            var publisher = await _db.Publishers.FindAsync(id);
+            _db.Publishers.Remove(publisher);
+            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PublisherExists(int id)
         {
-            return _context.Publishers.Any(e => e.Id == id);
+            return _db.Publishers.Any(e => e.Id == id);
         }
     }
 }

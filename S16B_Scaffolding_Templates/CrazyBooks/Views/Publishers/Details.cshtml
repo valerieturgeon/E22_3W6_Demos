@@ -9,6 +9,10 @@
 <div>
     <h4>Publisher</h4>
     <hr />
+<div class="hstack gap-4 mb-2 page-actions">
+    <div class="h1 page-action"><a asp-action="Index"><i class="bi bi-arrow-up-left-circle-fill" title="Retour à la liste"></i></a></div>
+    <div class="h1 page-action"><a asp-action="Edit" asp-route-id="@Model.Id"><i class="bi bi-pencil-fill" title="Modifier"></i></a></div>
+</div>
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
@@ -31,6 +35,4 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
 </div>

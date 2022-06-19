@@ -8,6 +8,9 @@
 
 <h4>Publisher</h4>
 <hr />
+<div class="hstack gap-4 mb-2 page-actions">
+    <div class="h1 page-action"><a asp-action="Index"><i class="bi bi-arrow-up-left-circle-fill" title="Retour à la liste"></i></a></div>
+</div>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -34,11 +37,6 @@
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
