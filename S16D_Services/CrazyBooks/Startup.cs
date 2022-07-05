@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using CrazyBooks_Services.Interfaces;
 using CrazyBooks_Services;
 using Microsoft.AspNetCore.Identity;
+using CrazyBooks_Models.Models;
 
 namespace CrazyBooks
 {
@@ -74,7 +75,7 @@ namespace CrazyBooks
 
             #endregion
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<CrazyBooksDbContext>().AddDefaultUI();
 
         }
