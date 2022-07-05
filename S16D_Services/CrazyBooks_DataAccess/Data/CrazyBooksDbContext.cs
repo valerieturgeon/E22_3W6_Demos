@@ -1,9 +1,10 @@
 ﻿using CrazyBooks_Models.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CrazyBooks_DataAccess.Data
 {
-    public class CrazyBooksDbContext:DbContext
+    public class CrazyBooksDbContext:IdentityDbContext
     {
         public CrazyBooksDbContext(DbContextOptions<CrazyBooksDbContext> options) : base(options)
         {

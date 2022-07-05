@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Options;
 using CrazyBooks_Services.Interfaces;
 using CrazyBooks_Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace CrazyBooks
 {
@@ -73,6 +74,9 @@ namespace CrazyBooks
 
             #endregion
 
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<CrazyBooksDbContext>().AddDefaultUI();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,6 +101,7 @@ namespace CrazyBooks
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

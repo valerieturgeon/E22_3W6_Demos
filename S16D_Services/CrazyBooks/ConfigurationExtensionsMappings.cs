@@ -17,7 +17,8 @@ namespace Microsoft.Extensions.Configuration
         public static Dictionary<string, string> GetComputerNameInfos(this IConfiguration config)
         {
             return new Dictionary<string, string>() {
-                { "LPFINFPORT25", "LPFINFPORT25\\SQLEXPRESS" }
+                { "LPFINFPORT25", "LPFINFPORT25\\SQLEXPRESS" },
+                 { "LPFINFPORT19", "LPFINFPORT19\\SQLEXPRESS" }
             };
         }
     }
