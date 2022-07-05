@@ -78,6 +78,15 @@ namespace CrazyBooks
             services.AddIdentity<IdentityUser, IdentityRole>()
               .AddEntityFrameworkStores<CrazyBooksDbContext>().AddDefaultUI();
 
+            #region Configuration pour Session
+            services.AddHttpContextAccessor();
+            services.AddSession(Options =>
+            {
+                Options.IdleTimeout = TimeSpan.FromMinutes(10);
+                Options.Cookie.HttpOnly = true;
+                Options.Cookie.IsEssential = true;
+            });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
