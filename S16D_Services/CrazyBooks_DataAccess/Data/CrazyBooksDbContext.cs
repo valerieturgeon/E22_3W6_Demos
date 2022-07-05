@@ -16,6 +16,7 @@ namespace CrazyBooks_DataAccess.Data
         public DbSet<Author> Authors { get; set; }
         public DbSet<AuthorDetail> AuthorsDetail { get; set; }
         public DbSet<AuthorBook> AuthorsBooks { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

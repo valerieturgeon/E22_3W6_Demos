@@ -4,14 +4,16 @@ using CrazyBooks_DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CrazyBooks_DataAccess.Migrations
 {
     [DbContext(typeof(CrazyBooksDbContext))]
-    partial class CrazyBooksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220705213723_addAppUser")]
+    partial class addAppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
