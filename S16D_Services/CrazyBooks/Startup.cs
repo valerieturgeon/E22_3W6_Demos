@@ -46,17 +46,14 @@ namespace CrazyBooks
             services.AddScoped<IPublishersService, PublishersService>();
             services.AddScoped<ISubjectsService, SubjectsService>();
 
-            services.AddDbContext<CrazyBooksDbContext>(options =>
-               options.UseSqlServer(
-                   Configuration.GetConnectionString()
-                   ));
-
+           
             // TODO 03: Configurer le service AVEC AddControllersWithViews
             #region Localization
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews().AddRazorRuntimeCompilation()
                     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-            // i18n Pour modèle de données la méthode fichiers ressources séparés
+           
+              // i18n Pour modèle de données la méthode fichiers ressources séparés
             //.AddDataAnnotationsLocalization();
 
             // i18n Pour modèle de données la méthode Ressources partagées
@@ -65,6 +62,7 @@ namespace CrazyBooks
                 options.DataAnnotationLocalizerProvider = (type, factory) =>
                     factory.Create(typeof(SharedResource)); //nom de la classe créée vide, attention au PATH
             });
+            services.AddRazorPages();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -74,9 +72,11 @@ namespace CrazyBooks
             });
 
             #endregion
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                    .AddEntityFrameworkStores<CrazyBooksDbContext>().AddDefaultUI();
+            services.AddDbContext<CrazyBooksDbContext>(options =>
+           options.UseSqlServer(
+           Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<IdentityUser, IdentityRole>()
+              .AddEntityFrameworkStores<CrazyBooksDbContext>().AddDefaultUI();
 
         }
 
@@ -107,6 +107,7 @@ namespace CrazyBooks
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

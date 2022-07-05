@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using CrazyBooks_Models.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -49,7 +50,14 @@ namespace CrazyBooks.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
-
+            //Ajouter le champ personnalisé afin qu'il soit rempli
+            [Required]
+            [Display(Name = "NickName")]
+            public string NickName { get; set; }
+            //Ajouter le champ automatiquement généré afin qu'il soit rempli
+            [Required]
+            [Display(Name = "PhoneNumber")]
+            public string PhoneNumber { get; set; }
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
@@ -74,7 +82,8 @@ namespace CrazyBooks.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                // Modifier l'objet créé et lier les champs ajoutés
+                var user = new ApplicationUser { UserName = Input.Email, NickName = Input.NickName, PhoneNumber = Input.PhoneNumber, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
