@@ -18,6 +18,7 @@ using CrazyBooks_Services.Interfaces;
 using CrazyBooks_Services;
 using Microsoft.AspNetCore.Identity;
 using CrazyBooks_Models.Models;
+using CrazyBooks_DataAccess.Initializer;
 
 namespace CrazyBooks
 {
@@ -75,8 +76,12 @@ namespace CrazyBooks
             services.AddDbContext<CrazyBooksDbContext>(options =>
            options.UseSqlServer(
            Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>()
-              .AddEntityFrameworkStores<CrazyBooksDbContext>().AddDefaultUI();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+              .AddEntityFrameworkStores<CrazyBooksDbContext>();
+            //.AddEntityFrameworkStores<CrazyBooksDbContext>().AddDefaultUI();
+
+            /* Activer après avoir configurer MSIdentity*/
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
             #region Configuration pour Session
             services.AddHttpContextAccessor();
@@ -90,7 +95,7 @@ namespace CrazyBooks
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             // TODO 04:Récupération des options de localisation 
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
@@ -111,8 +116,10 @@ namespace CrazyBooks
 
             app.UseRouting();
 
+            dbInitializer.Initialize();
             app.UseAuthentication();
             app.UseAuthorization();
+           
 
             app.UseEndpoints(endpoints =>
             {

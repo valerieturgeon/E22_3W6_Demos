@@ -15,6 +15,9 @@ namespace CrazyBooks_Utility
         public static string AuthorView = @"/images/Authors";
         public static string AuthorGeneric = "AuthorGrenerique.png";
 
-    
+        // Rôles pour Autorizations
+        public static string SuperAdminRole = "RSuperAdmin";
+        public static string PublisherRole = "RPublisher";
+        public static string AuthorRole = "RAuthor";
     }
 }
